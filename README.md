@@ -29,4 +29,4 @@ install_github("PredictiveEcology/BiomeBGCR@development")
 
 ## Contributions
 
-Please see `CONTRIBUTING.md` for information on how to contribute to this project.
+Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for information on how to contribute to this project.
