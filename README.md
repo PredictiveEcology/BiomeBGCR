@@ -9,34 +9,22 @@ Package for running Biome-BGC models in R
 
 ### Current stable release
 
-[![R build status](https://github.com/PredictiveEcology/SpaDES.core/workflows/R-CMD-check/badge.svg?branch=master)](https://github.com/PredictiveEcology/SpaDES.core/actions)
-[![Codecov test coverage](https://codecov.io/gh/PredictiveEcology/SpaDES.core/branch/master/graph/badge.svg)](https://codecov.io/gh/PredictiveEcology/SpaDES.core?branch=master)
-
-**Install from CRAN:**
-
-```r
-install.packages("SpaDES.core")
-```
-
 **Install from GitHub:**
 
 ```r
 #install.packages("devtools")
 library("devtools")
-install_github("PredictiveEcology/SpaDES.core", dependencies = TRUE) # master
+install_github("PredictiveEcology/BiomeBGCR")
 ```
 
 ### Development version (unstable)
 
-[![R build status](https://github.com/PredictiveEcology/SpaDES.core/workflows/R-CMD-check/badge.svg?branch=development)](https://github.com/PredictiveEcology/SpaDES.core/actions)
-[![Codecov test coverage](https://codecov.io/gh/PredictiveEcology/SpaDES.core/branch/development/graph/badge.svg)](https://codecov.io/gh/PredictiveEcology/SpaDES.core?branch=development)
-
 **Install from GitHub:**
 
 ```r
 #install.packages("devtools")
 library("devtools")
-install_github("PredictiveEcology/SpaDES.core", ref = "development", dependencies = TRUE)
+install_github("PredictiveEcology/BiomeBGCR@development")
 ```
 
 ## Contributions
