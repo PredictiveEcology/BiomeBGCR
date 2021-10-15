@@ -19,14 +19,14 @@ LDFLAGS_GENERIC = -lm
 
 # For Linux
 #CFLAGS = -O3 -std=c99 ${CFLAGS_GENERIC} # Fully optimized and using ISO C99 features
-CFLAGS = -ggdb -O0 -Wall -std=c99 ${CFLAGS_GENERIC} # Fully optimized and using ISO C99 features
+CFLAGS = -g -Og -Wall -fPIC ${CFLAGS_GENERIC} # No optimization for debugging purposes, using ISO C99 features
 
 # CFLAGS = -O3 -std=c99 -ffloat-store ${CFLAGS_GENERIC} # Use precise IEEE Floating Point
 # CFLAGS = -g -Wall -ansi -pedantic -std=c89 ${CFLAGS_GENERIC} # 'standards' testing flags
 # CFLAGS = -g -Wall -ansi -pedantic -std=c99 ${CFLAGS_GENERIC} # testing with line/file reporting
 LDFLAGS = ${LDFLAGS_GENERIC}
-CC = gcc
-#CC = g++
+#CC = gcc
+CC = g++
 
 # For Generic UNIX with debugging
 # CFLAGS = -g ${CFLAGS_GENERIC}
