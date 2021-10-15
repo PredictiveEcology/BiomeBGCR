@@ -1,16 +1,21 @@
 Package: BiomeBGCR
+Type: Package
 Title: Run Biome-BGC models from R
-Description: What the package does (one paragraph).
-Date: 2021-10-12
 Version: 0.0.0.9000
+Date: 2021-10-13
 Authors@R: c(
     person("Alex M", "Chubaty", email = "achubaty@for-cast.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7146-8135")),
     person("Ian", "Eddy", email = "ian.eddy@canada.ca", role = c("aut")),
-    person("Jean-François", "Lavoie", email = "atmailjfl@gmail.com", role = c("aut"))
+    person("Jean-Fran?ois", "Lavoie", email = "atmailjfl@gmail.com", role = c("aut"))
     )
+Maintainer: Your Name <your@email.com>
+Description: One paragraph description of what the package does as one or more full sentences.
 License: NA
 Encoding: UTF-8
 LazyData: true
+Imports: Rcpp (>= 1.0.7)
+LinkingTo: Rcpp
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+SystemRequirements: C++11

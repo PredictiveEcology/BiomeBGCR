@@ -1,0 +1,12 @@
+Windows & Linux
+
+1. Install RTools 4.0 from url 
+2. Open the Biome-BGCR package project
+3. Build package 
+
+Linux
+
+Debugging the C++ code using Visual Studio Code can only be achieved under linux because of a limitation with gdb and Mingw64
+(see https://stackoverflow.com/questions/64723109/gdb-cant-debug-running-process-using-vs-code-but-can-through-command-line)
+
+

@@ -1,0 +1,31 @@
+CXX_STD = CXX11
+
+PKG_CXXFLAGS = -I. -IBiome-BGC/src/include -ggdb -O0 -Wall
+PKG_CFLAGS = -IBiome-BGC/src/include -ggdb -O0 -Wall
+PKG_LIBS = -LBiome-BGC/src/lib -l:bgclib-4.2.a
+
+$(SHLIB): Biome-BGC/src/lib/bgclib-4.2.a
+
+Biome-BGC/src/lib/bgclib-4.2.a:
+	@(cd Biome-BGC/src && $(MAKE) bgclib_obj \
+	  CC="$(CC)" CFLAGS="$(PKG_CFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)")
+
+SOURCES = $(wildcard *.cpp)
+SOURCESBGC = Biome-BGC/src/pointbgc/pointbgc.c \
+	Biome-BGC/src/pointbgc/presim_state_init.c \
+	Biome-BGC/src/pointbgc/ini.c \
+	Biome-BGC/src/pointbgc/met_init.c \
+	Biome-BGC/src/pointbgc/restart_init.c \
+	Biome-BGC/src/pointbgc/time_init.c \
+	Biome-BGC/src/pointbgc/scc_init.c \
+	Biome-BGC/src/pointbgc/co2_init.c \
+	Biome-BGC/src/pointbgc/sitec_init.c \
+	Biome-BGC/src/pointbgc/ramp_ndep_init.c \
+	Biome-BGC/src/pointbgc/epc_init.c \
+	Biome-BGC/src/pointbgc/state_init.c \
+	Biome-BGC/src/pointbgc/output_ctrl.c \
+	Biome-BGC/src/pointbgc/output_init.c \
+	Biome-BGC/src/pointbgc/end_init.c \
+	Biome-BGC/src/pointbgc/metarr_init.c \
+	Biome-BGC/src/pointbgc/ndep_init.c
+OBJECTS = $(SOURCES:.cpp=.o) $(SOURCESBGC:.c=.o)
