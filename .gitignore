@@ -41,4 +41,5 @@ vignettes/*.pdf
 
 .vscode
 *.dll
+*.so
 *.o
