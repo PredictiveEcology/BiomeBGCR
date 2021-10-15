@@ -20,9 +20,19 @@ Andrew A Neuschwander, andrew@ntsg.umt.edu
 
 #ifdef WIN32
 #include "getopt.h"
-#define VERS "4.2"
-#define USER "unknow"
 #define HOST "Windows"
+#endif
+
+#ifndef VERS
+#define VERS "4.2"
+#endif
+
+#ifndef USER
+#define USER "unknown"
+#endif
+
+#ifndef HOST
+#define HOST "unknown"
 #endif
 
 #include "bgc.h"
