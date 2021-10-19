@@ -9,7 +9,6 @@ if (res != 0) {
   stop(paste("bgcExecute failed with error ", res))
 }
 
-bgcExecute("ini/enf_test1.ini")
 res <- bgcExecute("ini/enf_test1.ini")
 if (res != 0) {
   setwd(wd)
