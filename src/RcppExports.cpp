@@ -11,19 +11,20 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // bgcExecute
-int bgcExecute(CharacterVector iniFile);
-RcppExport SEXP _BiomeBGCR_bgcExecute(SEXP iniFileSEXP) {
+int bgcExecute(CharacterVector argv, StringVector iniFiles);
+RcppExport SEXP _BiomeBGCR_bgcExecute(SEXP argvSEXP, SEXP iniFilesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type iniFile(iniFileSEXP);
-    rcpp_result_gen = Rcpp::wrap(bgcExecute(iniFile));
+    Rcpp::traits::input_parameter< CharacterVector >::type argv(argvSEXP);
+    Rcpp::traits::input_parameter< StringVector >::type iniFiles(iniFilesSEXP);
+    rcpp_result_gen = Rcpp::wrap(bgcExecute(argv, iniFiles));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_BiomeBGCR_bgcExecute", (DL_FUNC) &_BiomeBGCR_bgcExecute, 1},
+    {"_BiomeBGCR_bgcExecute", (DL_FUNC) &_BiomeBGCR_bgcExecute, 2},
     {NULL, NULL, 0}
 };
 

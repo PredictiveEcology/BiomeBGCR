@@ -244,7 +244,7 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout, int mode)
 	conditions, then copy restart info into structures */
 	if (ok && ctrl.read_restart)
 	{
-		if (ok && restart_input(&ctrl, &ws, &cs, &ns, &epv, &metyr,
+		if (ok && restart_input(&ctrl, &ws, &cs, &ns, &epv, &metyr, &simyr,
 			&(bgcin->restart_input)))
 		{
 			bgc_printf(BV_ERROR, "Error in call to restart_input() from bgc()\n");
@@ -267,6 +267,7 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout, int mode)
 		
 		/* initial value for metyr */
 		metyr = 0;
+		simyr = 0;
 		
 		bgc_printf(BV_DIAG, "done firstday\n");
 	}
@@ -322,8 +323,8 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout, int mode)
 	{
 	
 	/* begin the annual model loop */
-	for (simyr=0 ; ok && simyr<tmpyears ; simyr++)
-	{
+	for (int i = 0; ok && i < tmpyears ; i++,simyr++)
+	{		
 		if (mode == MODE_MODEL)
 		{
 			/* reset the simple annual output variables for text output */
@@ -1131,6 +1132,10 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout, int mode)
 		}
 	}
 
+	if (mode == MODE_SPINUP) {
+		simyr = 0;
+	}
+
 	/* end of do block, test for steady state */
 	} while (mode == MODE_SPINUP && (!(steady1 && steady2) && (spinyears < ctrl.maxspinyears ||
 		metcycle != 0)) );
@@ -1151,7 +1156,7 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout, int mode)
 	/* available for spin and go operation.  WMJ 3/16/2005 */
 	if (ok)
 	{
-		if (restart_output(&ctrl, &ws, &cs, &ns, &epv, metyr, 
+		if (restart_output(&ctrl, &ws, &cs, &ns, &epv, metyr, simyr,
 			&(bgcout->restart_output)))
 		{
 			bgc_printf(BV_ERROR, "Error in call to restart_output() from bgc()\n");

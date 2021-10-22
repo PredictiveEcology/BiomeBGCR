@@ -14,7 +14,7 @@ See copyright.txt for Copyright information
 char *argv_zero = NULL;
 signed char cli_mode = MODE_INI;
 
-int main(int argc, char *argv[])
+int execute(char *argv[], int argc)
 {
 	/* bgc input and output structures */
 	bgcin_struct bgcin;
@@ -51,13 +51,14 @@ int main(int argc, char *argv[])
 
 	/* Process command line arguments */
 	opterr = 0;
+	optind = 0;
 	while((c = getopt(argc, argv, "pVsl:v:ugmn:a")) != -1)
 	{
 		switch(c)
 		{
 			case 'V':
 				bgc_printf(BV_ERROR, "BiomeBGC version %s (built %s %s by %s on %s)\n", VERS, __DATE__, __TIME__, USER, HOST);
-				exit(EXIT_SUCCESS);
+				return(EXIT_SUCCESS);
 				break;
 			case 's':
 				bgc_verbosity = BV_SILENT;
@@ -131,7 +132,7 @@ int main(int argc, char *argv[])
 	if (presim_state_init(&bgcin.ws, &bgcin.cs, &bgcin.ns, &bgcin.cinit))
 	{
 		bgc_printf(BV_ERROR, "Error in call to presim_state_init() from pointbgc()\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 
 	/******************************
@@ -145,7 +146,7 @@ int main(int argc, char *argv[])
 	if (optind >= argc )
 	{
 		bgc_print_usage();
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	strcpy(init.name, argv[optind]);
 	
@@ -153,84 +154,84 @@ int main(int argc, char *argv[])
 	if (file_open(&init,'i'))
 	{
 		bgc_printf(BV_ERROR, "Error opening init file, pointbgc.c\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 
 	/* read the header string from the init file */
 	if (fgets(point.header, 100, init.ptr)==NULL)
 	{
 		bgc_printf(BV_ERROR, "Error reading header string: pointbgc.c\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 
 	/* open met file, discard header lines */
 	if (met_init(init, &point))
 	{
 		bgc_printf(BV_ERROR, "Error in call to met_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 
 	/* read restart control parameters */
 	if (restart_init(init, &restart))
 	{
 		bgc_printf(BV_ERROR, "Error in call to restart_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 
 	/* read simulation timing control parameters */
 	if (time_init(init, &(bgcin.ctrl)))
 	{
 		bgc_printf(BV_ERROR, "Error in call to epclist_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	
 	/* read scalar climate change parameters */
 	if (scc_init(init, &scc))
 	{
 		bgc_printf(BV_ERROR, "Error in call to scc_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	
 	/* read CO2 control parameters */
 	if (co2_init(init, &(bgcin.co2), bgcin.ctrl.simyears))
 	{
 		bgc_printf(BV_ERROR, "Error in call to co2_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	if(readndepfile)
 	{
 		if (ndep_init(ndep_file, &(bgcin.ndepctrl)))
 		{
 			bgc_printf(BV_ERROR, "Error in call to ndep_init() from pointbgc.c... Exiting\n");
-			exit(EXIT_FAILURE);
+			return(EXIT_FAILURE);
 		}
 	}
 	/* read site constants */
 	if (sitec_init(init, &bgcin.sitec))
 	{
 		bgc_printf(BV_ERROR, "Error in call to sitec_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	
 	/* read ramped nitrogen deposition block */
 	if (ramp_ndep_init(init, &bgcin.ramp_ndep))
 	{
 		bgc_printf(BV_ERROR, "Error in call to ramp_ndep_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	
 	/* read ecophysiological constants */
 	if (epc_init(init, &bgcin.epc))
 	{
 		bgc_printf(BV_ERROR, "Error in call to epc_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 
 	/* initialize water state structure */
 	if (wstate_init(init, &bgcin.sitec, &bgcin.ws))
 	{
 		bgc_printf(BV_ERROR, "Error in call to wstate_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 
 	/* initialize carbon and nitrogen state structures */
@@ -238,28 +239,28 @@ int main(int argc, char *argv[])
 		&bgcin.ns))
 	{
 		bgc_printf(BV_ERROR, "Error in call to cstate_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 
 	/* read the output control information */
 	if (output_ctrl(init, &output))
 	{
 		bgc_printf(BV_ERROR, "Error in call to output_ctrl() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	
 	/* initialize output files. Does nothing in spinup mode*/
 	if (output_init(&output))
 	{
 		bgc_printf(BV_ERROR, "Error in call to output_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	
 	/* read final line out of init file to test for proper file structure */
 	if (end_init(init))
 	{
 		bgc_printf(BV_ERROR, "Error in call to end_init() from pointbgc.c... exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	fclose(init.ptr);
 
@@ -267,7 +268,7 @@ int main(int argc, char *argv[])
 	if (metarr_init(point.metf, &bgcin.metarr, &scc, bgcin.ctrl.metyears))
 	{
 		bgc_printf(BV_ERROR, "Error in call to metarr_init() from pointbgc.c... Exiting\n");
-		exit(EXIT_FAILURE);
+		return(EXIT_FAILURE);
 	}
 	fclose(point.metf.ptr);
 
@@ -285,6 +286,7 @@ int main(int argc, char *argv[])
 	bgcin.ctrl.read_restart = restart.read_restart;
 	bgcin.ctrl.write_restart = restart.write_restart;
 	bgcin.ctrl.keep_metyr = restart.keep_metyr;
+	bgcin.ctrl.keep_simyr = restart.keep_simyr;
 	
 	/* copy the output file structures into bgcout */
 	if (output.dodaily) bgcout.dayout = output.dayout;
@@ -396,7 +398,7 @@ int main(int argc, char *argv[])
 		if (bgc(&bgcin, &bgcout, MODE_MODEL))
 		{
 			bgc_printf(BV_ERROR, "Error in call to bgc()\n");
-			exit(EXIT_FAILURE);
+			return(EXIT_FAILURE);
 		}
 		restart.read_restart = 0;
 		bgcin.ctrl.read_restart = 0;
@@ -447,6 +449,12 @@ int main(int argc, char *argv[])
 
 	bgc_logfile_finish();
 	free(argv_zero);
-	return EXIT_SUCCESS;
+	return EXIT_SUCCESS;	
+}
+
+int main(int argc, char *argv[])
+{
+	int result = execute(argv, argc);
+	exit(result);	
 } /* end of main */
 	

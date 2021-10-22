@@ -68,6 +68,14 @@ int restart_init(file init, restart_ctrl_struct* restart)
 		bgc_printf(BV_ERROR, "Error reading keep_metyr flag\n");
 		ok=0;
 	}
+
+	/* flag for simyear handling */
+	if (ok && scan_value(init, &restart->keep_simyr, 'i'))
+	{
+		bgc_printf(BV_ERROR, "Error reading keep_simyr flag\n");
+		ok=0;
+	}
+
 	/* if using an input restart file, open it, otherwise discard the next line of the ini file */
 	if (ok && restart->read_restart)
 	{

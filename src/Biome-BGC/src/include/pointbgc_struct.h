@@ -28,6 +28,7 @@ typedef struct
 	int read_restart;      /* flag to read restart file */
 	int write_restart;     /* flag to write restart file */
 	int keep_metyr;        /* (flag) 1=retain restart metyr, 0=reset metyr */
+	int keep_simyr;        /* (flag) 1=retain restart simyr, 0=reset simyr */
 	file in_restart;       /* input restart file */
 	file out_restart;      /* output restart file */
 } restart_ctrl_struct;

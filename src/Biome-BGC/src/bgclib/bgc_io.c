@@ -35,6 +35,7 @@ int bgc_logfile_finish(void)
 	{
 		fflush(bgc_logfile);
 		fclose(bgc_logfile);
+		bgc_logfile = NULL;
 	}
 	return 1;
 }

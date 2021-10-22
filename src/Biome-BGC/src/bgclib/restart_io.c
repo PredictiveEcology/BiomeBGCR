@@ -12,7 +12,7 @@ See copyright.txt for Copyright information
 #include "bgc.h"
 
 int restart_input(control_struct* ctrl, wstate_struct* ws, cstate_struct* cs,
-	nstate_struct* ns, epvar_struct* epv, int* metyr, 
+	nstate_struct* ns, epvar_struct* epv, int* metyr, int* simyr,
 	restart_data_struct* restart)
 {
 	int ok=1;
@@ -95,12 +95,15 @@ int restart_input(control_struct* ctrl, wstate_struct* ws, cstate_struct* cs,
 	
 	if (ctrl->keep_metyr) *metyr          = restart->metyr; 
 	else                  *metyr          = 0;
+
+	if (ctrl->keep_simyr) *simyr          = restart->simyr; 
+	else                  *simyr          = 0;
 	
 	return(!ok);
 }
 
 int restart_output(control_struct* ctrl, wstate_struct* ws,cstate_struct* cs,
-	nstate_struct* ns, epvar_struct* epv, int metyr,
+	nstate_struct* ns, epvar_struct* epv, int metyr, int simyr,
 	restart_data_struct* restart)
 {
 	int ok=1;
@@ -182,6 +185,7 @@ int restart_output(control_struct* ctrl, wstate_struct* ws,cstate_struct* cs,
 	restart->dsr							  = epv->dsr;
 
 	restart->metyr                            = metyr;
+	restart->simyr                            = simyr;
 	
 	return(!ok);
 }

@@ -35,6 +35,7 @@ typedef struct
 	int read_restart;      /* flag to read restart file */
 	int write_restart;     /* flag to write restart file */
 	int keep_metyr;        /* (flag) 1=retain restart metyr, 0=reset metyr */
+	int keep_simyr;        /* (flag) 1=retain restart simyr, 0=reset simyr */
 	int onscreen;          /* (flag) 1=show progress on-screen 0=don't */
 } control_struct;
 
@@ -834,6 +835,7 @@ typedef struct
 	double annmax_livecrootc;
 	double dsr;
 	int metyr;
+	int simyr;
 } restart_data_struct;
 
 #ifdef __cplusplus

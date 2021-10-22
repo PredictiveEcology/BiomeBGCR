@@ -27,10 +27,10 @@ int prephenology(const control_struct* ctrl, const epconst_struct* epc,
 const siteconst_struct* sitec, const metarr_struct* metarr,
 phenarray_struct* phen);
 int restart_input(control_struct* ctrl, wstate_struct* ws, cstate_struct* cs,
-	nstate_struct* ns, epvar_struct* epv, int* metyr, 
+	nstate_struct* ns, epvar_struct* epv, int* metyr,  int* simyr, 
 	restart_data_struct* restart);
 int restart_output(control_struct* ctrl, wstate_struct* ws,cstate_struct* cs,
-	nstate_struct* ns, epvar_struct* epv, int metyr,
+	nstate_struct* ns, epvar_struct* epv, int metyr, int simyr,
 	restart_data_struct* restart);
 int free_phenmem(phenarray_struct* phen);
 int firstday(const epconst_struct* epc, const cinit_struct* cinit,

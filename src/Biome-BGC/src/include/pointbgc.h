@@ -46,8 +46,11 @@ extern "C"
 
 /* non include stuff here */
 
+int execute(char *argv[], int argc);
+
 #ifdef __cplusplus
 }
 #endif
+
 
 #endif
