@@ -1,3 +1,10 @@
+^\.gitignore$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^CONTRIBUTING\.md$
+^inputs$
 ^README\.md$
+^src/Biome-BGC/outputs/\.ignore$
+^src/Biome-BGC/restart/\.ignore$
+^src/Biome-BGC/src/.*/.*\.o$
+^src/Biome-BGC/src/lib/\.ignore$
