@@ -1,5 +1,5 @@
 test_that("simple test of the API", {
-  skip_if_not(interactive())
+  skip_if_not(interactive()) ## TODO: TEMPORARY
 
   wd <- getwd()
 
@@ -39,7 +39,8 @@ test_that("simple test of the API", {
       stop(paste("bgcExecute failed with error ", res))
     }
 
-    file.copy("restart/enf_test1_singlestep_out.endpoint", "restart/enf_test1_singlestep.endpoint", overwrite = TRUE)
+    file.copy("restart/enf_test1_singlestep_out.endpoint",
+              "restart/enf_test1_singlestep.endpoint", overwrite = TRUE)
   }
 
   setwd(wd)

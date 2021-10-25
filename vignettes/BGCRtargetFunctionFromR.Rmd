@@ -4,7 +4,7 @@ author: "CBoisvenue"
 date: "13/10/2021"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{BiomeBGCR}
+  %\VignetteIndexEntry{R-based Biome-BGC functionallity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 # Biome-BGC control from R/SpaDES
 
-Biome-BGC requires at least three file.
+Biome-BGC requires at least three files.
 Each of these files should be accessible in the R environment.
 Each section below looks at the individual files and suggests an avenue for control.
 

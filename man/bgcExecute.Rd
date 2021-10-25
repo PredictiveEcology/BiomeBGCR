@@ -7,7 +7,9 @@
 bgcExecute(argv, iniFiles)
 }
 \arguments{
-\item{`iniFiles`}{is the path to the input \code{ini} files}
+\item{argv}{commandline arguments to pass to bgc}
+
+\item{iniFiles}{a vector of paths to the individual input \code{ini} files}
 }
 \value{
 an integer error code (0 means no error)

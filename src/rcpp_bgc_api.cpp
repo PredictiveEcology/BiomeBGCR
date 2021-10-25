@@ -6,7 +6,9 @@ using namespace Rcpp;
 
 //' Execute BGC from R
 //'
-//' @param `iniFiles` is the path to the input `ini` files
+//' @param argv commandline arguments to pass to bgc
+//'
+//' @param iniFiles a vector of paths to the individual input `ini` files
 //'
 //' @return an integer error code (0 means no error)
 // [[Rcpp::export]]
