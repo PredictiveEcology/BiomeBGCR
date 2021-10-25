@@ -1,14 +1,14 @@
 Windows & Linux
 
-1.(Windows Only) Install RTools 4.0 from url 
+1. (Windows Only) Install RTools 4.0 from url
 
 2. Open the Biome-BGCR package project
 
-3. Install Rcpp package in R using command : 
+3. Install Rcpp package in R using command :
 
 install.packages("Rcpp")
 
-4. Build package 
+4. Build package
 
 Linux
 

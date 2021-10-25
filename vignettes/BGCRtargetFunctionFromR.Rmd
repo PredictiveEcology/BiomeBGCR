@@ -11,12 +11,12 @@ Biome-BGC requires at least three file.
 Each of these files should be accessible in the R environment.
 Each section below looks at the individual files and suggests an avenue for control.
 
-
 # Initialization file
-This file will be referred to as the .ini file. Page 4 of the bgc_users_guide.pdf describes in detail the .ini file structure and requirements.
+
+This file will be referred to as the `.ini` file. Page 4 of the bgc_users_guide.pdf describes in detail the `.ini` file structure and requirements.
 All the sections and parameters defined in this file have to be modifiable either via a global script in SpaDES (example below) or by have some of the parameters in an R-object (in the `sim$`) that can be modified.
 An example of a global script and of the section that would be used in a module to build an object (`sim$bgc.ini`) are given below (2 separate code blocks).
-Note that each R-object in the lists match the blocks in the .ini file example provided in the bgc_users_guide.pdf. Some of these objects, the ones that are much less likely to change are in the module script (`BiomeBGCR_default`) and the ones with user-control are in the global script.
+Note that each R-object in the lists match the blocks in the `.ini` file example provided in the `bgc_users_guide.pdf`. Some of these objects, the ones that are much less likely to change are in the module script (`BiomeBGCR_default`) and the ones with user-control are in the global script.
 
 
 ```{r example_global_script_for_SpaDES, echo = TRUE, eval = FALSE}
@@ -311,7 +311,6 @@ Could use the PhD runs to run "multiple" pixels (Boisvenue and Running 2010)
 
 # binToText function
 
-
 binToText is a function that converts single floating point binary data
 into ascii text data.  This function was written for Biome BGC output
 but could be used for any data that was single floating point precision
@@ -360,7 +359,7 @@ binToText("C:/Celine/Active_UMontana/Research/HewlettNCEP/runs/runs4_noDist",
 
 # References
 
-Boisvenue, C., & Running, S. (2010). Simulations show decreasing carbon stocks and potential for carbon emissions in Rocky Mountain forests over the next century. Ecological Applications, 20(5), 1302–1319.
-Rienecker, M. M., Suarez, M. J., Todling, R., Bacmeister, J., Takacs, L., Liu, H. C., Gu, W., Sienkiewicz, M., Koster, R. D., Gelaro, R., Stajner, I., and Nielsen, J. E. (2008). The GEOS-5 data assimilation system – Documentation of versions 5.0.1, 5.1.0. Technical Report Series on Global Modeling and Data Assimilation, ed Suarez, M. J. (National Aeronautics and Space Administration, Washington, DC), 95.
-Zhao, M., Running, S. W., and Nemani, R. R. (2006). Sensitivity of Moderate Resolution Imaging Spectroradiometer (MODIS) terrestrial primary production to the accuracy of
+- Boisvenue, C., & Running, S. (2010). Simulations show decreasing carbon stocks and potential for carbon emissions in Rocky Mountain forests over the next century. Ecological Applications, 20(5), 1302–1319.
+- Rienecker, M. M., Suarez, M. J., Todling, R., Bacmeister, J., Takacs, L., Liu, H. C., Gu, W., Sienkiewicz, M., Koster, R. D., Gelaro, R., Stajner, I., and Nielsen, J. E. (2008). The GEOS-5 data assimilation system – Documentation of versions 5.0.1, 5.1.0. Technical Report Series on Global Modeling and Data Assimilation, ed Suarez, M. J. (National Aeronautics and Space Administration, Washington, DC), 95.
+- Zhao, M., Running, S. W., and Nemani, R. R. (2006). Sensitivity of Moderate Resolution Imaging Spectroradiometer (MODIS) terrestrial primary production to the accuracy of
 meteorological reanalyses. Journal of Geophysical Research, 111, G01002.
