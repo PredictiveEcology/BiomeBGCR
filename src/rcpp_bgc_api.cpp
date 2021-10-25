@@ -1,12 +1,14 @@
-
 #include <Rcpp.h>
-#include <bgc.h>
-#include "pointbgc.h"
+#include "../src/Biome-BGC/src/include/bgc.h"
+#include "../src/Biome-BGC/src/include/pointbgc.h"
 
 using namespace Rcpp;
 
-//  iniFile is the path to the input ini file
-// returns an int error code (0 means no error)
+//' Execute BGC from R
+//'
+//' @param `iniFiles` is the path to the input `ini` files
+//'
+//' @return an integer error code (0 means no error)
 // [[Rcpp::export]]
 int bgcExecute(CharacterVector argv, StringVector iniFiles) {
 

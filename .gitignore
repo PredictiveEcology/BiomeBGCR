@@ -44,3 +44,4 @@ vignettes/*.pdf
 *.so
 *.o
 /.metadata/
+inst/doc

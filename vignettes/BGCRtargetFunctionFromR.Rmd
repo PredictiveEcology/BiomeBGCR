@@ -2,8 +2,23 @@
 title: "R-based Biome-BGC functionallity"
 author: "CBoisvenue"
 date: "13/10/2021"
-output: html_document
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{BiomeBGCR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+#library(BiomeBGCR)
+```
 
 # Biome-BGC control from R/SpaDES
 
