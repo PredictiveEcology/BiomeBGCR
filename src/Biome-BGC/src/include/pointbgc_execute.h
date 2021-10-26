@@ -1,5 +1,5 @@
-#ifndef POINTBGC_H
-#define POINTBGC_H
+#ifndef POINTBGC_EXECUTE_H
+#define POINTBGC_EXECUTE_H
 
 /*
 pointbgc.h
@@ -12,28 +12,14 @@ Andrew A Neuschwander, andrew@ntsg.umt.edu
 
 */
 
-#ifndef VERS
-#define VERS "4.2"
-#endif
-
-#ifndef USER
-#define USER "unknown"
-#endif
-
-#ifndef HOST
-#define HOST "unknown"
-#endif
-
-#include "bgc.h"
-#include "pointbgc_struct.h"
-#include "pointbgc_func.h"
-
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
 /* non include stuff here */
+
+int execute(char *argv[], int argc);
 
 #ifdef __cplusplus
 }

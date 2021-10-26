@@ -12,7 +12,7 @@ BINDIR = ${ROOTDIR}/..
 BGCLIB = ${LIBDIR}/bgclib-${VERSION}.a
 
 ALLOBJS = ${OBJS1} ${OBJS2}  ${BGCLIB}
-OBJS1 = pointbgc.o met_init.o restart_init.o time_init.o scc_init.o co2_init.o\
+OBJS1 = pointbgc.o pointbgc_execute.o met_init.o restart_init.o time_init.o scc_init.o co2_init.o\
 	sitec_init.o epc_init.o state_init.o output_init.o metarr_init.o\
 	presim_state_init.o ramp_ndep_init.o output_ctrl.o ndep_init.o
 OBJS2 = end_init.o ini.o

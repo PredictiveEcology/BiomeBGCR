@@ -1,6 +1,6 @@
 #include <Rcpp.h>
-#include "../src/Biome-BGC/src/include/bgc.h"
-#include "../src/Biome-BGC/src/include/pointbgc.h"
+#include "bgc.h"
+#include "pointbgc_execute.h"
 
 using namespace Rcpp;
 
@@ -31,7 +31,7 @@ int bgcExecute(CharacterVector argv, StringVector iniFiles) {
 
 	// prepare the first parameters to be passed except the ini file
 	char** argvFinal = new char*[stdargv.size() + 1];
-	for (int i = 0; i < stdargv.size(); i++)
+	for (std::size_t i = 0; i < stdargv.size(); i++)
 	{
 		std::string& str = stdargv[i];
 		argvFinal[i] = new char[str.size() + 1];

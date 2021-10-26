@@ -1,15 +1,15 @@
-CXX_STD = CXX11
-PKG_CXXFLAGS = -I. -IBiome-BGC/src/include -Wall -fPIC
-PKG_CFLAGS = -IBiome-BGC/src/include -Wall -fPIC
+PKG_CXXFLAGS = -I. -IBiome-BGC/src/include
+PKG_CFLAGS = -IBiome-BGC/src/include
 PKG_LIBS = -LBiome-BGC/src/lib -l:bgclib-4.2.a
 
 $(SHLIB): Biome-BGC/src/lib/bgclib-4.2.a
 
 Biome-BGC/src/lib/bgclib-4.2.a:
-	@(cd Biome-BGC/src && $(MAKE) bgclib_obj)
+	@(cd Biome-BGC/src && $(MAKE))
 
-SOURCES = $(wildcard *.cpp)
-SOURCESBGC = Biome-BGC/src/pointbgc/pointbgc.c \
+SOURCES = rcpp_bgc_api.cpp RcppExports.cpp
+
+SOURCESBGC = Biome-BGC/src/pointbgc/pointbgc_execute.c \
 	Biome-BGC/src/pointbgc/presim_state_init.c \
 	Biome-BGC/src/pointbgc/ini.c \
 	Biome-BGC/src/pointbgc/met_init.c \

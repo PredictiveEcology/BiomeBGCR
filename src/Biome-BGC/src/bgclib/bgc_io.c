@@ -23,9 +23,9 @@ int bgc_logfile_setup(char *logfile)
 	{
 		bgc_printf(BV_ERROR, "Couldn't Open logfile for writing: '%s' (Error: %s)\n", logfile, strerror(errno));
 		bgc_print_usage();
-		exit(EXIT_FAILURE);
+		return EXIT_FAILURE;
 	}
-	return 1;
+	return EXIT_SUCCESS;
 }
 
 int bgc_logfile_finish(void)
@@ -37,7 +37,7 @@ int bgc_logfile_finish(void)
 		fclose(bgc_logfile);
 		bgc_logfile = NULL;
 	}
-	return 1;
+	return EXIT_SUCCESS;
 }
 
 void bgc_print_usage(void)
@@ -120,7 +120,7 @@ signed char bgc_verbosity_decode(char *keyword)
 		{
 			bgc_printf(BV_ERROR, "Unknown Verbosity Keyword: %s\n", keyword);
 			bgc_print_usage();
-			exit(EXIT_FAILURE);
+			return BV_ERROR;
 		}
 	}
 }
