@@ -2,8 +2,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^CONTRIBUTING\.md$
-^scripts$
 ^README\.md$
+^inst/inputs/restart/\.ignore$
+^scripts$
 ^src/Biome-BGC/outputs/\.ignore$
 ^src/Biome-BGC/restart/\.ignore$
 ^src/Biome-BGC/src/.*/.*\.o$
