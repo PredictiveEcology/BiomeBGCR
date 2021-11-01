@@ -4,11 +4,11 @@
 #' Execute BGC from R
 #'
 #' @param argv commandline arguments to pass to bgc
-#'
 #' @param iniFiles a vector of paths to the individual input `ini` files
+#' @param simYearsOverride the number of years to use during simulation.  if <= 0, the field "number of simulation years" from the ini file is used
 #'
 #' @return an integer error code (0 means no error)
-bgcExecute <- function(argv, iniFiles) {
-    .Call('_BiomeBGCR_bgcExecute', PACKAGE = 'BiomeBGCR', argv, iniFiles)
+bgcExecuteInternal <- function(argv, iniFiles, simYearsOverride) {
+    .Call('_BiomeBGCR_bgcExecuteInternal', PACKAGE = 'BiomeBGCR', argv, iniFiles, simYearsOverride)
 }
 

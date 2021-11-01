@@ -14,7 +14,7 @@ See copyright.txt for Copyright information
 
 int main(int argc, char *argv[])
 {
-	int result = execute(argv, argc);
+	int result = execute(argv, argc, 0);
 	exit(result);
 } /* end of main */
 

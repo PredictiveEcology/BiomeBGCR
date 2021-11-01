@@ -30,7 +30,7 @@ See copyright.txt for Copyright information
 char *argv_zero = NULL;
 signed char cli_mode = MODE_INI;
 
-int execute(char *argv[], int argc)
+int execute(char *argv[], int argc, int simYearsOverride)
 {
 	/* bgc input and output structures */
 	bgcin_struct bgcin;
@@ -203,6 +203,9 @@ int execute(char *argv[], int argc)
 		bgc_printf(BV_ERROR, "Error in call to epclist_init() from pointbgc.c... Exiting\n");
 		return(EXIT_FAILURE);
 	}
+
+	if (simYearsOverride > 0)
+		bgcin.ctrl.simyears = simYearsOverride;
 
 	/* read scalar climate change parameters */
 	if (scc_init(init, &scc))

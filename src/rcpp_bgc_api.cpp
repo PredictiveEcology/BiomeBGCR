@@ -7,12 +7,12 @@ using namespace Rcpp;
 //' Execute BGC from R
 //'
 //' @param argv commandline arguments to pass to bgc
-//'
 //' @param iniFiles a vector of paths to the individual input `ini` files
+//' @param simYearsOverride the number of years to use during simulation.  if <= 0, the field "number of simulation years" from the ini file is used
 //'
 //' @return an integer error code (0 means no error)
 // [[Rcpp::export]]
-int bgcExecute(CharacterVector argv, StringVector iniFiles) {
+int bgcExecuteInternal(CharacterVector argv, StringVector iniFiles, int simYearsOverride) {
 
 	std::vector<std::string> stdargv;
 	stdargv.push_back("bcg");
@@ -47,7 +47,7 @@ int bgcExecute(CharacterVector argv, StringVector iniFiles) {
 		argvFinal[stdargv.size()] = new char[file.size() + 1];
 		strcpy(argvFinal[stdargv.size()], file.c_str());
 
-		int res = execute(argvFinal, stdargv.size() + 1);
+		int res = execute(argvFinal, stdargv.size() + 1, simYearsOverride);
 
 		delete[] argvFinal[stdargv.size()];
 

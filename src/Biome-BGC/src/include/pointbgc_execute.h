@@ -19,7 +19,7 @@ extern "C"
 
 /* non include stuff here */
 
-int execute(char *argv[], int argc);
+int execute(char *argv[], int argc, int simYearsOverride);
 
 #ifdef __cplusplus
 }

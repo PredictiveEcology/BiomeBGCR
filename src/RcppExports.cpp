@@ -10,21 +10,22 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// bgcExecute
-int bgcExecute(CharacterVector argv, StringVector iniFiles);
-RcppExport SEXP _BiomeBGCR_bgcExecute(SEXP argvSEXP, SEXP iniFilesSEXP) {
+// bgcExecuteInternal
+int bgcExecuteInternal(CharacterVector argv, StringVector iniFiles, int simYearsOverride);
+RcppExport SEXP _BiomeBGCR_bgcExecuteInternal(SEXP argvSEXP, SEXP iniFilesSEXP, SEXP simYearsOverrideSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type argv(argvSEXP);
     Rcpp::traits::input_parameter< StringVector >::type iniFiles(iniFilesSEXP);
-    rcpp_result_gen = Rcpp::wrap(bgcExecute(argv, iniFiles));
+    Rcpp::traits::input_parameter< int >::type simYearsOverride(simYearsOverrideSEXP);
+    rcpp_result_gen = Rcpp::wrap(bgcExecuteInternal(argv, iniFiles, simYearsOverride));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_BiomeBGCR_bgcExecute", (DL_FUNC) &_BiomeBGCR_bgcExecute, 2},
+    {"_BiomeBGCR_bgcExecuteInternal", (DL_FUNC) &_BiomeBGCR_bgcExecuteInternal, 3},
     {NULL, NULL, 0}
 };
 
