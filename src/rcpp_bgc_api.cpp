@@ -10,8 +10,8 @@ using namespace Rcpp;
 //' @param iniFiles a vector of paths to the individual input `ini` files
 //' @param simYearsOverride the number of years to use during simulation.  if <= 0, the field "number of simulation years" from the ini file is used
 //'
+//' @keyword internal
 //' @return an integer error code (0 means no error)
-// [[Rcpp::export]]
 int bgcExecuteInternal(CharacterVector argv, StringVector iniFiles, int simYearsOverride) {
 
 	std::vector<std::string> stdargv;
