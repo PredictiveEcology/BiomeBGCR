@@ -3,10 +3,7 @@
 ^\.Rproj\.user$
 ^CONTRIBUTING\.md$
 ^README\.md$
-^inst/inputs/restart/\.ignore$
 ^scripts$
-^src/Biome-BGC/outputs/\.ignore$
-^src/Biome-BGC/restart/\.ignore$
 ^src/Biome-BGC/src/.*/.*\.o$
 ^src/Biome-BGC/src/lib/\.ignore$
 ^.*\.vscode$

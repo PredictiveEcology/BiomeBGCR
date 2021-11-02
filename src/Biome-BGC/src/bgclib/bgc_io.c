@@ -175,7 +175,12 @@ int bgc_printf(signed char verbosity, const char *format, ...)
 	{
 #ifdef __USE_ISOC99
 		if (bgc_verbosity == BV_DIAG)
-			fprintf(stdout, "In %s at line %i: ", file, line);
+#ifdef BGC_RCPP		
+		Rprintf("In %s at line %i: ", file, line);
+#else
+		fprintf(stdout, "In %s at line %i: ", file, line);
+#endif				
+			
 #endif
 #ifdef BGC_RCPP
 		Rvprintf(format, ap);
