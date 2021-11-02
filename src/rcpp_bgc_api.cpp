@@ -41,21 +41,21 @@ int bgcExecuteInternal(CharacterVector argv, StringVector iniFiles, int simYears
 
 	int res = EXIT_SUCCESS;
 
-	for (int i = 0; i < iniFiles.size(); i++)
+	for (size_t i = 0; i < iniFiles.size(); i++)
 	{
 		std::string file = Rcpp::as<std::string>(iniFiles[i]);
 		// allocate and fill in the last parameter (ini file)
 		argvFinal[stdargv.size()] = new char[file.size() + 1];
 		strcpy(argvFinal[stdargv.size()], file.c_str());
 
-		int res = execute(argvFinal, stdargv.size() + 1, simYearsOverride);
+		res = execute(argvFinal, stdargv.size() + 1, simYearsOverride);
 
 		delete[] argvFinal[stdargv.size()];
 
 		if (res != EXIT_SUCCESS)
 		{
 			// deallocate the argv struct
-			for (int i = 0; i <stdargv.size(); i++)
+			for (size_t i = 0; i < stdargv.size(); i++)
 				delete[] argvFinal[i];
 
 			delete[] argvFinal;
@@ -65,7 +65,7 @@ int bgcExecuteInternal(CharacterVector argv, StringVector iniFiles, int simYears
 	}
 
 	// deallocate the argv struct
-	for (int i = 0; i <stdargv.size(); i++)
+	for (std::size_t i = 0; i < stdargv.size(); i++)
 		delete[] argvFinal[i];
 
 	delete[] argvFinal;

@@ -802,7 +802,7 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout, int mode)
 			/* calculate water summary variables */
 			if (ok && wsummary(&ws,&wf,&summary))
 			{
-				printf("Error in wsummary() from bgc()\n");
+				bgc_printf(BV_DIAG, "Error in wsummary() from bgc()\n");
 				ok=0;
 			}
 

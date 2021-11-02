@@ -9,6 +9,9 @@
  */
 
 #include "bgc.h"
+#ifdef BGC_RCPP
+#include <R.h>
+#endif
 
 signed char bgc_verbosity = BV_DETAIL;
 FILE *bgc_logfile = NULL;
@@ -138,7 +141,7 @@ int bgc_printf(signed char verbosity, const char *format, ...)
 
 #ifdef DEBUG
 	/* needed to debug the verbosity settings */
-	printf("Function Verbosity: %d\nRequested Verbosity: %d\n", verbosity, bgc_verbosity);
+	Rprintf("Function Verbosity: %d\nRequested Verbosity: %d\n", verbosity, bgc_verbosity);
 	fflush(stdout);
 #endif
 
@@ -161,8 +164,12 @@ int bgc_printf(signed char verbosity, const char *format, ...)
 	}
 	else if (verbosity <= BV_WARN)
 	{
+#ifdef BGC_RCPP
+		REvprintf(format, ap);					
+#else
 		printed = vfprintf(stderr, format, ap);
 		fflush(stderr);
+#endif		
 	}
 	else
 	{
@@ -170,9 +177,12 @@ int bgc_printf(signed char verbosity, const char *format, ...)
 		if (bgc_verbosity == BV_DIAG)
 			fprintf(stdout, "In %s at line %i: ", file, line);
 #endif
-
+#ifdef BGC_RCPP
+		Rvprintf(format, ap);
+#else
 		printed = vfprintf(stdout, format, ap);
 		fflush(stdout);
+#endif				
 	}
 
 	va_end(ap);

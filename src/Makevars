@@ -1,29 +1,60 @@
-PKG_CXXFLAGS = -I. -IBiome-BGC/src/include
-PKG_CFLAGS = -IBiome-BGC/src/include
-PKG_LIBS = -LBiome-BGC/src/lib -l:bgclib-4.2.a
+PKG_CXXFLAGS = -I. -IBiome-BGC/src/include -DBGC_RCPP
+PKG_CFLAGS = -IBiome-BGC/src/include -DBGC_RCPP
 
-$(SHLIB): Biome-BGC/src/lib/bgclib-4.2.a
+OBJS = rcpp_bgc_api.o RcppExports.o
 
-Biome-BGC/src/lib/bgclib-4.2.a:
-	@(cd Biome-BGC/src && $(MAKE))
+OBJS_BGC = Biome-BGC/src/pointbgc/pointbgc_execute.o \
+	Biome-BGC/src/pointbgc/presim_state_init.o \
+	Biome-BGC/src/pointbgc/ini.o \
+	Biome-BGC/src/pointbgc/met_init.o \
+	Biome-BGC/src/pointbgc/restart_init.o \
+	Biome-BGC/src/pointbgc/time_init.o \
+	Biome-BGC/src/pointbgc/scc_init.o \
+	Biome-BGC/src/pointbgc/co2_init.o \
+	Biome-BGC/src/pointbgc/sitec_init.o \
+	Biome-BGC/src/pointbgc/ramp_ndep_init.o \
+	Biome-BGC/src/pointbgc/epc_init.o \
+	Biome-BGC/src/pointbgc/state_init.o \
+	Biome-BGC/src/pointbgc/output_ctrl.o \
+	Biome-BGC/src/pointbgc/output_init.o \
+	Biome-BGC/src/pointbgc/end_init.o \
+	Biome-BGC/src/pointbgc/metarr_init.o \
+	Biome-BGC/src/pointbgc/ndep_init.o
 
-SOURCES = rcpp_bgc_api.cpp RcppExports.cpp
+OBJS_BGCLIB = Biome-BGC/src/bgclib/bgc.o\
+	Biome-BGC/src/bgclib/output_map_init.o\
+	Biome-BGC/src/bgclib/make_zero_flux_struct.o\
+	Biome-BGC/src/bgclib/atm_pres.o\
+	Biome-BGC/src/bgclib/prephenology.o\
+	Biome-BGC/src/bgclib/restart_io.o\
+	Biome-BGC/src/bgclib/firstday.o\
+	Biome-BGC/src/bgclib/zero_srcsnk.o\
+	Biome-BGC/src/bgclib/daymet.o\
+	Biome-BGC/src/bgclib/dayphen.o\
+	Biome-BGC/src/bgclib/phenology.o\
+	Biome-BGC/src/bgclib/radtrans.o\
+	Biome-BGC/src/bgclib/prcp_route.o\
+	Biome-BGC/src/bgclib/snowmelt.o\
+	Biome-BGC/src/bgclib/baresoil_evap.o\
+	Biome-BGC/src/bgclib/soilpsi.o\
+	Biome-BGC/src/bgclib/maint_resp.o\
+	Biome-BGC/src/bgclib/canopy_et.o\
+	Biome-BGC/src/bgclib/photosynthesis.o\
+	Biome-BGC/src/bgclib/outflow.o\
+	Biome-BGC/src/bgclib/decomp.o\
+	Biome-BGC/src/bgclib/daily_allocation.o\
+	Biome-BGC/src/bgclib/annual_rates.o\
+	Biome-BGC/src/bgclib/growth_resp.o\
+	Biome-BGC/src/bgclib/state_update.o\
+	Biome-BGC/src/bgclib/nleaching.o\
+	Biome-BGC/src/bgclib/mortality.o\
+	Biome-BGC/src/bgclib/check_balance.o\
+	Biome-BGC/src/bgclib/summary.o\
+	Biome-BGC/src/bgclib/smooth.o\
+	Biome-BGC/src/bgclib/precision_control.o\
+	Biome-BGC/src/bgclib/bgc_io.o\
+	Biome-BGC/src/bgclib/output_ascii.o\
+	Biome-BGC/src/bgclib/get_co2.o\
+	Biome-BGC/src/bgclib/get_ndep.o
 
-SOURCESBGC = Biome-BGC/src/pointbgc/pointbgc_execute.c \
-	Biome-BGC/src/pointbgc/presim_state_init.c \
-	Biome-BGC/src/pointbgc/ini.c \
-	Biome-BGC/src/pointbgc/met_init.c \
-	Biome-BGC/src/pointbgc/restart_init.c \
-	Biome-BGC/src/pointbgc/time_init.c \
-	Biome-BGC/src/pointbgc/scc_init.c \
-	Biome-BGC/src/pointbgc/co2_init.c \
-	Biome-BGC/src/pointbgc/sitec_init.c \
-	Biome-BGC/src/pointbgc/ramp_ndep_init.c \
-	Biome-BGC/src/pointbgc/epc_init.c \
-	Biome-BGC/src/pointbgc/state_init.c \
-	Biome-BGC/src/pointbgc/output_ctrl.c \
-	Biome-BGC/src/pointbgc/output_init.c \
-	Biome-BGC/src/pointbgc/end_init.c \
-	Biome-BGC/src/pointbgc/metarr_init.c \
-	Biome-BGC/src/pointbgc/ndep_init.c
-OBJECTS = $(SOURCES:.cpp=.o) $(SOURCESBGC:.c=.o)
+OBJECTS = ${OBJS} ${OBJS_BGC} ${OBJS_BGCLIB}

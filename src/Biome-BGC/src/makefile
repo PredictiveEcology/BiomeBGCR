@@ -25,8 +25,8 @@ CFLAGS = -g -O0 -Wall -fPIC ${CFLAGS_GENERIC} # No optimization for debugging pu
 # CFLAGS = -g -Wall -ansi -pedantic -std=c89 ${CFLAGS_GENERIC} # 'standards' testing flags
 # CFLAGS = -g -Wall -ansi -pedantic -std=c99 ${CFLAGS_GENERIC} # testing with line/file reporting
 LDFLAGS = ${LDFLAGS_GENERIC}
-#CC = gcc
-CC = g++
+CC = gcc
+#CC = g++
 
 # For Generic UNIX with debugging
 # CFLAGS = -g ${CFLAGS_GENERIC}
