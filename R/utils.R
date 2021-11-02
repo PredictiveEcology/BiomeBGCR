@@ -54,7 +54,7 @@ compareASCIILines <- function(fileNameA, fileNameB, lineIndexA, lineIndexB) {
   lineA <- readLines(conA, n = 1)
   lineB <- readLines(conB, n = 1)
 
-  print(paste("Comparing ", lineA, " to ", lineB), sep="")
+  #print(paste("Comparing ", lineA, " to ", lineB), sep="")
 
   return (lineA == lineB)
 }
