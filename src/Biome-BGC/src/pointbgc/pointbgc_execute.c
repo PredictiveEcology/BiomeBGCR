@@ -63,7 +63,7 @@ int execute(char *argv[], int argc, int simYearsOverride)
 	bgcin.ndepctrl.varndep = 0;
 	/* Store command name for use by bgc_print_usage() */
 	argv_zero = (char *)malloc(strlen(argv[0])+1);
-	strncpy(argv_zero, argv[0], strlen(argv[0])+1);
+	strcpy(argv_zero, argv[0]);
 
 	/* Process command line arguments */
 	opterr = 0;
