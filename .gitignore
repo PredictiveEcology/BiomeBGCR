@@ -46,6 +46,9 @@ vignettes/*.pdf
 /.metadata/
 inst/doc
 man
-outputs
 inputs/restart
+
+!inst/outputs
+inst/outputs/*
+!inst/outputs/reference
 
