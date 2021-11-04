@@ -15,7 +15,7 @@ test_that("Missoula example validation test", {
   stop(paste("bgcExecute failed with error ", res[[1]]))
   }
 
-  ini <- res[[2]]
+  ini <- res[[2]][[1]]
   resultFile <- paste(iniGet(ini, "OUTPUT_CONTROL", 1), "_ann.txt", sep = "")
   referenceFile <- system.file("outputs/reference/oth_ann.txt", package="BiomeBGCR")
   # compare the reference output to the current output

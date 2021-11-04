@@ -18,7 +18,7 @@ The files are expected to be specified for "go mode"}
 set to FALSE only when calling subsequent simulation steps in single step mode}
 }
 \value{
-a list containing the resulting error code (0 means no error) and the ini file structure
+a list containing the resulting error code (0 means no error) and the ini file structure (one per ini file input)
 }
 \description{
 Executes a simulation by calling the underlying BiomeBGC C library

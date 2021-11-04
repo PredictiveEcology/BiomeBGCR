@@ -196,12 +196,15 @@ iniMakeSpinup <- function(ini) {
 #'
 #' @export
 iniMakeSingleStep <- function(ini, firstRun) {
+
+  readRestartFile <- "1"
   value <- "1"
   if (firstRun) {
     value <- "0"
+    readRestartFile <- iniGet(ini, "RESTART", 1)
   }
 
-  ini = iniSet(ini, "RESTART", 1, value) # read restart file
+  ini = iniSet(ini, "RESTART", 1, readRestartFile) # read restart file
   ini = iniSet(ini, "RESTART", 2, "1") # write restart file
   ini = iniSet(ini, "RESTART", 3, value) # use restart metyear
   ini = iniSet(ini, "RESTART", 4, value) # use restart simyear
