@@ -16,7 +16,7 @@ int co2_init(file init, co2control_struct* co2, int simyears)
 	int i;
 	char key1[] = "CO2_CONTROL";
 	char keyword[80];
-	char junk[80];
+	char junk[1024];
 	file temp;
 	int reccount = 0;
 	/********************************************************************

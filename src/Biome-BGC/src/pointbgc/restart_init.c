@@ -15,7 +15,7 @@ int restart_init(file init, restart_ctrl_struct* restart)
 	int ok = 1;
 	char key1[] = "RESTART";
 	char keyword[256];
-	char junk[256];
+	char junk[1024];
 	extern signed char cli_mode;
 
 
@@ -113,4 +113,8 @@ int restart_init(file init, restart_ctrl_struct* restart)
 	}
 	
 	return (!ok);
+}
+
+int restart_output_init(file init, restart_ctrl_struct* restart)
+{
 }

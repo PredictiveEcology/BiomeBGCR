@@ -24,7 +24,7 @@ extern "C"
 /* structure definition for filename handling */
 typedef struct
 {
-	char name[128];
+	char name[1024];
 	FILE *ptr;
 } file;
 

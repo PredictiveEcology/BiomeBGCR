@@ -46,7 +46,7 @@ typedef struct
 typedef struct
 {
 	int onscreen;          /* flag for on-screen progress indicator */
-	char outprefix[100];   /* output filename prefix */
+	char outprefix[1024];   /* output filename prefix */
 	int dodaily; 	       /* flag for daily output */
 	int domonavg;          /* flag for monthly average output */
 	int doannavg;          /* flag for annual average output */
