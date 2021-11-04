@@ -33,10 +33,6 @@ int output_init(output_struct* output)
 			bgc_printf(BV_ERROR, "Error opening daily outfile (%s) in output_ctrl()\n",output->dayout.name);
 			ok=0;
 		}
-		else
-		{
-			bgc_printf(BV_WARN, "Opened binary daily output file in write mode\n");
-		}
 	}
 	
 	if (ok && output->domonavg)
