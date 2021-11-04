@@ -114,7 +114,3 @@ int restart_init(file init, restart_ctrl_struct* restart)
 	
 	return (!ok);
 }
-
-int restart_output_init(file init, restart_ctrl_struct* restart)
-{
-}
