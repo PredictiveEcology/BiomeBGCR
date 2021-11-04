@@ -46,7 +46,12 @@ test_that("Boisvenue2010 example validation test using single step mode", {
       print(referenceFile)
 
       # compare the reference output to the current output
-      expect_true(compareASCIILines(resultFile, referenceFile, 11, 10 + i))
+      res <- compareASCIILines(resultFile, referenceFile, 11, 10 + i)
+      expect_true(res)
+      if (!res) {
+        stop("Test stopped")
+      }
+
     }
   }
 })
