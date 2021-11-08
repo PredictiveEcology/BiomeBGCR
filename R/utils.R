@@ -5,6 +5,7 @@
 #' @param fileNameB the name of file B
 #'
 #' @return TRUE if files are identical, false otherwise
+#' @export
 #'
 compareASCIIFiles <- function(fileNameA, fileNameB) {
   conA <- file(fileNameA,open="rt")
@@ -18,15 +19,19 @@ compareASCIIFiles <- function(fileNameA, fileNameB) {
     return(FALSE)
   }
 
+  i <- 1
   while(length(lineA) > 0 && length(lineB) > 0) {
     if (lineA != lineB) {
       close(conA)
       close(conB)
+      print(paste("Found differences at line ", i, sep = ""))
       return(FALSE)
     }
 
     lineA <- readLines(conA, n = 1)
     lineB <- readLines(conB, n = 1)
+
+    i <- i + 1
   }
 
   close(conA)
