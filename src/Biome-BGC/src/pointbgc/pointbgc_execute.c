@@ -442,6 +442,7 @@ int execute(char *argv[], int argc, int simYearsOverride)
 	free(bgcin.metarr.par);
 	free(bgcin.metarr.dayl);
 	if (bgcin.co2.varco2) free(bgcin.co2.co2ppm_array);
+	if (bgcin.co2.varco2) free(bgcin.co2.co2year_array);
 	if (bgcin.ndepctrl.varndep) free(bgcin.ndepctrl.ndepyear_array);
 	if (bgcin.ndepctrl.varndep) free(bgcin.ndepctrl.ndep_array);
 	if (output.anncodes != NULL) free(output.anncodes);
