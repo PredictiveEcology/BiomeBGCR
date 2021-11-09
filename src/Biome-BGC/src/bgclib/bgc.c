@@ -412,6 +412,10 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout, int mode)
 				{
 					/* increasing CO2, ramped Ndep */
 					ind_simyr = ramp_ndep.ind_year - ctrl.simstartyear;
+					if (ind_simyr >= co2.co2vals) {
+						bgc_printf(BV_ERROR,"Error trying to access CO2 array index %i in a %i sized array\n",ind_simyr, co2.co2vals);
+						return(EXIT_FAILURE);
+					}						
 					ndep_scalar = (ramp_ndep.ind_ndep - ramp_ndep.preind_ndep) / 
 						(co2.co2ppm_array[ind_simyr]-co2.co2ppm_array[0]);
 					ndep_diff = (co2.co2ppm_array[simyr] - co2.co2ppm_array[0]) * 
