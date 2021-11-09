@@ -18,8 +18,8 @@ CFLAGS_GENERIC = -I${INCDIR} -DVERS="\\\"${VERSION}\\\"" -DUSER="\\\"${USER}\\\"
 LDFLAGS_GENERIC = -lm
 
 # For Linux
-#CFLAGS = -O3 -std=c99 ${CFLAGS_GENERIC} # Fully optimized and using ISO C99 features
-CFLAGS = -g -O0 -Wall -fPIC ${CFLAGS_GENERIC} # No optimization for debugging purposes, using ISO C99 features
+CFLAGS = -g -O0 -Wall -std=gnu99 -mfpmath=sse -msse2 -mstackrealign -DNDEBUG ${CFLAGS_GENERIC} # Fully optimized and using ISO C99 features
+#CFLAGS = -O3 ${CFLAGS_GENERIC} # No optimization for debugging purposes, using ISO C99 features
 
 # CFLAGS = -O3 -std=c99 -ffloat-store ${CFLAGS_GENERIC} # Use precise IEEE Floating Point
 # CFLAGS = -g -Wall -ansi -pedantic -std=c89 ${CFLAGS_GENERIC} # 'standards' testing flags

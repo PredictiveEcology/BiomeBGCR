@@ -23,16 +23,24 @@ test_that("Boisvenue2010 example validation test using single step mode", {
                     system.file("inputs/ini/cccmat63_pr.ini", package="BiomeBGCR"),
                     system.file("inputs/ini/cccmat63_y.ini", package="BiomeBGCR"))
 
-  res <- bgcExecute(argv, goFileNames)
-  if (res[[1]] != 0) {
-    stop(paste("bgcExecute failed with error ", res[[1]]))
-  }
+  iterations <- 1
+  for (i in 1:iterations) {
+    print(paste("Executing test ", i, sep = ""))
+    res <- bgcExecute(argv, goFileNames)
+    if (res[[1]] != 0) {
+      stop(paste("bgcExecute failed with error ", res[[1]]))
+    }
 
-  ini <- res[[2]][[1]]
-  resultFile <- paste(iniGet(ini, "OUTPUT_CONTROL", 1), "_ann.txt", sep = "")
-  lineSplit <- strsplit(resultFile, "/")[[1]]
-  referenceFileRelative <- paste("outputs/reference/", lineSplit[length(lineSplit)], sep = "")
-  referenceFile <- system.file(referenceFileRelative, package="BiomeBGCR")
-  # compare the reference output to the current output
-  expect_true(compareASCIIFiles(resultFile, referenceFile))
+    ini <- res[[2]][[1]]
+    resultFile <- paste(iniGet(ini, "OUTPUT_CONTROL", 1), "_ann.txt", sep = "")
+    lineSplit <- strsplit(resultFile, "/")[[1]]
+    referenceFileRelative <- paste("outputs/reference/", lineSplit[length(lineSplit)], sep = "")
+    referenceFile <- system.file(referenceFileRelative, package="BiomeBGCR")
+    # compare the reference output to the current output
+    res <- compareASCIIFiles(resultFile, referenceFile)
+    expect_true(res)
+    if (!res) {
+      stop("Test stopped")
+    }
+  }
 })
