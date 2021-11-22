@@ -10,29 +10,30 @@
 #'
 #' @export
 bgcExecuteSpinup <- function(argv = "-a", iniFiles) {
+  iniList <- vector(mode = "list", length = length(iniFiles))
 
-    iniList <- vector(mode = "list", length = length(iniFiles))
+  for (i in 1:length(iniFiles)) {
+    file <- iniFiles[i]
+    ini <- iniRead(file)
 
-    for (i in 1:length(iniFiles)) {
-      file <- iniFiles[i]
-
-      ini <- iniRead(file)
-
-      # check if we have to modify the ini files for spinup phase
-      if (iniGet(ini, "TIME_DEFINE", 4) == "0") {
-        ini <- iniMakeSpinup(ini)
-      }
-
-      ini <- iniFixPaths(ini)
-
-      iniFiles[i] <- paste(file, ".spinup.fixed", sep = "")
-
-      iniWrite(ini, iniFiles[i])
-
-      iniList[[i]] <- ini
+    # check if we have to modify the ini files for spinup phase
+    if (iniGet(ini, "TIME_DEFINE", 4) == "0") {
+      ini <- iniMakeSpinup(ini)
     }
 
+    ini <- iniFixPaths(ini)
+
+    iniFiles[i] <- paste(file, ".spinup.fixed", sep = "")
+
+    iniWrite(ini, iniFiles[i])
+
+    iniList[[i]] <- ini
+  }
+
   res <- bgcExecuteInternal(argv, iniFiles, -1)
+  if (res != 0) {
+    stop("bgcExecuteInternal failed with error ", res)
+  }
 
   return(list(res, iniList))
 }
@@ -51,7 +52,6 @@ bgcExecuteSpinup <- function(argv = "-a", iniFiles) {
 #'
 #' @export
 bgcExecute <- function(argv = "-a", iniFiles, simYearsOverride = -1, firstRun = TRUE) {
-
   if (simYearsOverride <= 0) {
     firstRun <- TRUE # should always be TRUE when not in single step mode
   }
@@ -75,6 +75,9 @@ bgcExecute <- function(argv = "-a", iniFiles, simYearsOverride = -1, firstRun = 
   }
 
   res <- bgcExecuteInternal(argv, iniFiles, simYearsOverride)
+  if (res != 0) {
+    stop("bgcExecuteInternal failed with error ", res)
+  }
 
   if (simYearsOverride > 0) {
     for (i in 1:length(iniList)) {
@@ -82,7 +85,7 @@ bgcExecute <- function(argv = "-a", iniFiles, simYearsOverride = -1, firstRun = 
       fileRestart <- iniGet(ini, "RESTART", 5)
       fileRestartOut <- iniGet(ini, "RESTART", 6)
 
-      #print(paste("copying ", fileRestartOut, " over ", fileRestart, sep = ""))
+      # print(paste("copying ", fileRestartOut, " over ", fileRestart, sep = ""))
 
       file.copy(fileRestartOut, fileRestart, overwrite = TRUE)
     }

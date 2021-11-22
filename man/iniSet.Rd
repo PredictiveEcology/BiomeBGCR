@@ -2,7 +2,7 @@
 % Please edit documentation in R/iniFile.R
 \name{iniSet}
 \alias{iniSet}
-\title{iniSet}
+\title{Set accessor for the BiomeBGC ini data structure}
 \usage{
 iniSet(ini, section, index, value)
 }

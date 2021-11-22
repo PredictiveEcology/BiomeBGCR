@@ -2,7 +2,7 @@
 % Please edit documentation in R/iniFile.R
 \name{iniGet}
 \alias{iniGet}
-\title{iniGet}
+\title{Get accessor for the BiomeBGC ini data structure}
 \usage{
 iniGet(ini, section, index)
 }

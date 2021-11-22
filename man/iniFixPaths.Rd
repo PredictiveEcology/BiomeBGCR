@@ -2,7 +2,7 @@
 % Please edit documentation in R/iniFile.R
 \name{iniFixPaths}
 \alias{iniFixPaths}
-\title{iniFixPaths}
+\title{Fix all the relative paths inside the ini file}
 \usage{
 iniFixPaths(ini)
 }
@@ -10,5 +10,5 @@ iniFixPaths(ini)
 \item{ini}{the ini data structure returned by iniRead()}
 }
 \description{
-Fixes all the relative paths inside the ini file so that the C++ lib can use the resulting the correct absolute paths.
+C++ lib requires absolute paths.
 }

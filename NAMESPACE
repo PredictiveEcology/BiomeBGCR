@@ -2,6 +2,7 @@
 
 export(bgcExecute)
 export(bgcExecuteSpinup)
+export(compareASCIIFiles)
 export(iniFixPaths)
 export(iniGet)
 export(iniMakeSingleStep)

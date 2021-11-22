@@ -2,7 +2,7 @@
 % Please edit documentation in R/iniFile.R
 \name{iniWrite}
 \alias{iniWrite}
-\title{iniWrite}
+\title{Writes the ini data to an INI file}
 \usage{
 iniWrite(ini, fileName, title = "", description = "")
 }

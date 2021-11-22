@@ -8,8 +8,8 @@
 #' @export
 #'
 compareASCIIFiles <- function(fileNameA, fileNameB) {
-  conA <- file(fileNameA,open="rt")
-  conB <- file(fileNameB,open="rt")
+  conA <- file(fileNameA, open = "rt")
+  conB <- file(fileNameB, open = "rt")
 
   lineA <- readLines(conA, n = 1)
   lineB <- readLines(conB, n = 1)
@@ -20,7 +20,7 @@ compareASCIIFiles <- function(fileNameA, fileNameB) {
   }
 
   i <- 1
-  while(length(lineA) > 0 && length(lineB) > 0) {
+  while (length(lineA) > 0 && length(lineB) > 0) {
     if (lineA != lineB) {
       close(conA)
       close(conB)
@@ -50,8 +50,8 @@ compareASCIIFiles <- function(fileNameA, fileNameB) {
 #' @return TRUE if lines are identical, false otherwise
 #'
 compareASCIILines <- function(fileNameA, fileNameB, lineIndexA, lineIndexB) {
-  conA <- file(fileNameA,open="rt")
-  conB <- file(fileNameB,open="rt")
+  conA <- file(fileNameA, open = "rt")
+  conB <- file(fileNameB, open = "rt")
 
   readLines(conA, n = lineIndexA - 1)
   readLines(conB, n = lineIndexB - 1)
@@ -62,8 +62,9 @@ compareASCIILines <- function(fileNameA, fileNameB, lineIndexA, lineIndexB) {
   close(conA)
   close(conB)
 
-  if (lineA != lineB)
-    print(paste("compareASCIILines found different : ", lineA, " with ", lineB), sep="")
+  if (lineA != lineB) {
+    print(paste("compareASCIILines found different : ", lineA, " with ", lineB), sep = "")
+  }
 
-  return (lineA == lineB)
+  return(lineA == lineB)
 }

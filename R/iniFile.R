@@ -8,42 +8,43 @@
 #'
 #' @export
 iniRead <- function(fileName) {
-  con <- file(fileName,open="r")
+  con <- file(fileName, open = "r")
 
-  sections = vector(mode='list', length=15)
-  names(sections) <- c("MET_INPUT", "RESTART", "TIME_DEFINE", "CLIM_CHANGE", "CO2_CONTROL", "SITE", "RAMP_NDEP", "EPC_FILE", "W_STATE",
-                       "C_STATE", "N_STATE", "OUTPUT_CONTROL", "DAILY_OUTPUT", "ANNUAL_OUTPUT", "END_INIT")
+  sections <- vector(mode = "list", length = 15)
+  names(sections) <- c(
+    "MET_INPUT", "RESTART", "TIME_DEFINE", "CLIM_CHANGE", "CO2_CONTROL", "SITE", "RAMP_NDEP", "EPC_FILE", "W_STATE",
+    "C_STATE", "N_STATE", "OUTPUT_CONTROL", "DAILY_OUTPUT", "ANNUAL_OUTPUT", "END_INIT"
+  )
 
   # read the title and description and set as attributes
   line <- readLines(con, n = 1)
   lineSplit <- strsplit(line, ":")
-  attr(sections, "title") = lineSplit[[1]][1]
-  attr(sections, "decription") = lineSplit[[1]][2]
+  attr(sections, "title") <- lineSplit[[1]][1]
+  attr(sections, "decription") <- lineSplit[[1]][2]
 
-  sections[["MET_INPUT"]] = iniReadMetInput(con)
-  sections[["RESTART"]] = iniReadRestart(con)
-  sections[["TIME_DEFINE"]] = iniReadTimeDefine(con)
-  sections[["CLIM_CHANGE"]] = iniReadClimChange(con)
-  sections[["CO2_CONTROL"]] = iniReadCO2Control(con)
-  sections[["SITE"]] = iniReadSite(con)
-  sections[["RAMP_NDEP"]] = iniReadRampNdep(con)
-  sections[["EPC_FILE"]] = iniReadEPCFile(con)
-  sections[["W_STATE"]] = iniReadWState(con)
-  sections[["C_STATE"]] = iniReadCState(con)
-  sections[["N_STATE"]] = iniReadNState(con)
-  sections[["OUTPUT_CONTROL"]] = iniReadOutputControl(con)
-  sections[["DAILY_OUTPUT"]] = iniReadOutput(con, "DAILY_OUTPUT")
-  sections[["ANNUAL_OUTPUT"]] = iniReadOutput(con, "ANNUAL_OUTPUT")
-  sections[["END_INIT"]] = iniReadEndInit(con)
+  sections[["MET_INPUT"]] <- iniReadMetInput(con)
+  sections[["RESTART"]] <- iniReadRestart(con)
+  sections[["TIME_DEFINE"]] <- iniReadTimeDefine(con)
+  sections[["CLIM_CHANGE"]] <- iniReadClimChange(con)
+  sections[["CO2_CONTROL"]] <- iniReadCO2Control(con)
+  sections[["SITE"]] <- iniReadSite(con)
+  sections[["RAMP_NDEP"]] <- iniReadRampNdep(con)
+  sections[["EPC_FILE"]] <- iniReadEPCFile(con)
+  sections[["W_STATE"]] <- iniReadWState(con)
+  sections[["C_STATE"]] <- iniReadCState(con)
+  sections[["N_STATE"]] <- iniReadNState(con)
+  sections[["OUTPUT_CONTROL"]] <- iniReadOutputControl(con)
+  sections[["DAILY_OUTPUT"]] <- iniReadOutput(con, "DAILY_OUTPUT")
+  sections[["ANNUAL_OUTPUT"]] <- iniReadOutput(con, "ANNUAL_OUTPUT")
+  sections[["END_INIT"]] <- iniReadEndInit(con)
 
   close(con)
 
   return(sections)
 }
 
-#' iniGet
-#'
 #' Get accessor for the BiomeBGC ini data structure
+#'
 #' @param ini the ini data structure returned by iniRead()
 #' @param section the section tag (MET_INPUT, RESTART, etc..)
 #' @param index the index (or indices) of the parameters.
@@ -53,12 +54,11 @@ iniRead <- function(fileName) {
 #'
 #' @export
 iniGet <- function(ini, section, index) {
-  return(ini[[section]][["value"]][index+1])
+  return(ini[[section]][["value"]][index + 1])
 }
 
-#' iniSet
-#'
 #' Set accessor for the BiomeBGC ini data structure
+#'
 #' @param ini the ini data structure returned by iniRead()
 #' @param section the section tag (MET_INPUT, RESTART, etc..)
 #' @param index the index (or indices) of the parameters.
@@ -69,13 +69,12 @@ iniGet <- function(ini, section, index) {
 #'
 #' @export
 iniSet <- function(ini, section, index, value) {
-  ini[[section]][["value"]][index+1] <- value
+  ini[[section]][["value"]][index + 1] <- value
   return(ini)
 }
 
-#' iniWrite
-#'
 #' Writes the ini data to an INI file
+#'
 #' @param ini the ini data structure returned by iniRead()
 #' @param fileName (character vector) the name of the file to write to
 #' @param title (character vector) the title of the file (will be written in the first line)
@@ -84,7 +83,7 @@ iniSet <- function(ini, section, index, value) {
 #'
 #' @export
 iniWrite <- function(ini, fileName, title = "", description = "") {
-  con <- file(fileName,open="wt")
+  con <- file(fileName, open = "wt")
 
   if (nchar(title) == 0) {
     title <- attr(ini, "title")
@@ -107,33 +106,33 @@ iniWrite <- function(ini, fileName, title = "", description = "") {
   close(con)
 }
 
-#' iniFixPaths
+#' Fix all the relative paths inside the ini file
 #'
-#' Fixes all the relative paths inside the ini file so that the C++ lib can use the resulting the correct absolute paths.
+#' C++ lib requires absolute paths.
+#'
 #' @param ini the ini data structure returned by iniRead()
 #'
 #' @export
 iniFixPaths <- function(ini) {
-
   # meteorology input filename
   section <- "MET_INPUT"
   index <- 1
   filename <- iniGet(ini, section, index)
-  newFilename <- paste(system.file("", package="BiomeBGCR"), filename, sep="/")
+  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   # input restart filename
   section <- "RESTART"
   index <- 5
   filename <- iniGet(ini, section, index)
-  newFilename <- paste(system.file("", package="BiomeBGCR"), filename, sep="/")
+  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   # output restart filename
   section <- "RESTART"
   index <- 6
   filename <- iniGet(ini, section, index)
-  newFilename <- paste(system.file("", package="BiomeBGCR"), filename, sep="/")
+  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   # annual variable CO2 filename
@@ -141,7 +140,7 @@ iniFixPaths <- function(ini) {
   index <- 3
   if (iniGet(ini, section, 1) == "1") { # filename must be corrected only if in file variation mode
     filename <- iniGet(ini, section, index)
-    newFilename <- paste(system.file("", package="BiomeBGCR"), filename, sep="/")
+    newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
     ini <- iniSet(ini, section, index, newFilename)
   }
 
@@ -149,14 +148,14 @@ iniFixPaths <- function(ini) {
   section <- "EPC_FILE"
   index <- 1
   filename <- iniGet(ini, section, index)
-  newFilename <- paste(system.file("", package="BiomeBGCR"), filename, sep="/")
+  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   # prefix for output files
   section <- "OUTPUT_CONTROL"
   index <- 1
   filename <- iniGet(ini, section, index)
-  newFilename <- paste(system.file("", package="BiomeBGCR"), filename, sep="/")
+  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   return(ini)
@@ -170,19 +169,19 @@ iniFixPaths <- function(ini) {
 #'
 #' @export
 iniMakeSpinup <- function(ini) {
-  ini = iniSet(ini, "RESTART", 2, "1") # write restart file
-  ini = iniSet(ini, "TIME_DEFINE", 4, "1") # spinup simulation
+  ini <- iniSet(ini, "RESTART", 2, "1") # write restart file
+  ini <- iniSet(ini, "TIME_DEFINE", 4, "1") # spinup simulation
 
-  ini = iniSet(ini, "OUTPUT_CONTROL", 2, "0") # no daily output
-  ini = iniSet(ini, "OUTPUT_CONTROL", 3, "0") # no monthly avg
-  ini = iniSet(ini, "OUTPUT_CONTROL", 4, "0") # no annual avg
-  ini = iniSet(ini, "OUTPUT_CONTROL", 5, "0") # no annual output
+  ini <- iniSet(ini, "OUTPUT_CONTROL", 2, "0") # no daily output
+  ini <- iniSet(ini, "OUTPUT_CONTROL", 3, "0") # no monthly avg
+  ini <- iniSet(ini, "OUTPUT_CONTROL", 4, "0") # no annual avg
+  ini <- iniSet(ini, "OUTPUT_CONTROL", 5, "0") # no annual output
 
-  ini[["DAILY_OUTPUT"]] <- ini[["DAILY_OUTPUT"]][c(1:2),]
-  ini = iniSet(ini, "DAILY_OUTPUT", 1, "0") # no daily output
+  ini[["DAILY_OUTPUT"]] <- ini[["DAILY_OUTPUT"]][c(1:2), ]
+  ini <- iniSet(ini, "DAILY_OUTPUT", 1, "0") # no daily output
 
-  ini[["ANNUAL_OUTPUT"]] <- ini[["ANNUAL_OUTPUT"]][c(1:2),]
-  ini = iniSet(ini, "ANNUAL_OUTPUT", 1, "0") # no annual output
+  ini[["ANNUAL_OUTPUT"]] <- ini[["ANNUAL_OUTPUT"]][c(1:2), ]
+  ini <- iniSet(ini, "ANNUAL_OUTPUT", 1, "0") # no annual output
 
   return(ini)
 }
@@ -196,7 +195,6 @@ iniMakeSpinup <- function(ini) {
 #'
 #' @export
 iniMakeSingleStep <- function(ini, firstRun) {
-
   readRestartFile <- "1"
   value <- "1"
   if (firstRun) {
@@ -204,10 +202,10 @@ iniMakeSingleStep <- function(ini, firstRun) {
     readRestartFile <- iniGet(ini, "RESTART", 1)
   }
 
-  ini = iniSet(ini, "RESTART", 1, readRestartFile) # read restart file
-  ini = iniSet(ini, "RESTART", 2, "1") # write restart file
-  ini = iniSet(ini, "RESTART", 3, value) # use restart metyear
-  ini = iniSet(ini, "RESTART", 4, value) # use restart simyear
+  ini <- iniSet(ini, "RESTART", 1, readRestartFile) # read restart file
+  ini <- iniSet(ini, "RESTART", 2, "1") # write restart file
+  ini <- iniSet(ini, "RESTART", 3, value) # use restart metyear
+  ini <- iniSet(ini, "RESTART", 4, value) # use restart simyear
 
   return(ini)
 }
@@ -228,35 +226,35 @@ iniParseSectionLine <- function(line, lookForSecondField = TRUE) {
   index <- 1
   while (index <= len) {
     if (nchar(temp[index]) > 0) {
-      value = temp[index]
+      value <- temp[index]
       break
     }
-    index = index + 1
+    index <- index + 1
   }
 
   unit <- ""
   if (lookForSecondField) {
-    index = index + 1
+    index <- index + 1
     while (index <= len) {
       if (nchar(temp[index]) > 0) {
-        unit = temp[index]
+        unit <- temp[index]
         break
       }
-      index = index + 1
+      index <- index + 1
     }
   }
 
-  index = index + 1
+  index <- index + 1
   comment <- ""
   while (index <= len) {
     if (nchar(temp[index]) > 0) {
-      comment = paste(temp[index:len], sep=" ", collapse=" ")
+      comment <- paste(temp[index:len], sep = " ", collapse = " ")
       break
     }
-    index = index + 1
+    index <- index + 1
   }
 
-  return(data.frame('value' = value, 'unit' = unit, 'comment' = comment))
+  return(data.frame("value" = value, "unit" = unit, "comment" = comment))
 }
 
 #' iniFindSection
@@ -271,9 +269,9 @@ iniFindSection <- function(con, tag) {
   # Read section line
   line <- readLines(con, n = 1)
 
-  while(!startsWith(line, tag)) {
+  while (!startsWith(line, tag)) {
     line <- readLines(con, n = 1)
-    if (length(line) == 0){
+    if (length(line) == 0) {
       return(list())
     }
   }
@@ -289,7 +287,6 @@ iniFindSection <- function(con, tag) {
 #' @return the data frame containing the section data
 #'
 iniReadMetInput <- function(con) {
-
   line <- iniFindSection(con, "MET_INPUT")
 
   section <- iniParseSectionLine(line)
@@ -311,8 +308,7 @@ iniReadMetInput <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadRestart <- function(con) {
-
-  line = iniFindSection(con, "RESTART")
+  line <- iniFindSection(con, "RESTART")
 
   section <- iniParseSectionLine(line)
 
@@ -345,8 +341,7 @@ iniReadRestart <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadTimeDefine <- function(con) {
-
-  line = iniFindSection(con, "TIME_DEFINE")
+  line <- iniFindSection(con, "TIME_DEFINE")
 
   section <- iniParseSectionLine(line)
 
@@ -376,8 +371,7 @@ iniReadTimeDefine <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadClimChange <- function(con) {
-
-  line = iniFindSection(con, "CLIM_CHANGE")
+  line <- iniFindSection(con, "CLIM_CHANGE")
 
   section <- iniParseSectionLine(line)
 
@@ -407,8 +401,7 @@ iniReadClimChange <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadCO2Control <- function(con) {
-
-  line = iniFindSection(con, "CO2_CONTROL")
+  line <- iniFindSection(con, "CO2_CONTROL")
 
   section <- iniParseSectionLine(line)
 
@@ -432,8 +425,7 @@ iniReadCO2Control <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadSite <- function(con) {
-
-  line = iniFindSection(con, "SITE")
+  line <- iniFindSection(con, "SITE")
 
   section <- iniParseSectionLine(line)
 
@@ -475,8 +467,7 @@ iniReadSite <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadRampNdep <- function(con) {
-
-  line = iniFindSection(con, "RAMP_NDEP")
+  line <- iniFindSection(con, "RAMP_NDEP")
 
   section <- iniParseSectionLine(line)
 
@@ -500,8 +491,7 @@ iniReadRampNdep <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadEPCFile <- function(con) {
-
-  line = iniFindSection(con, "EPC_FILE")
+  line <- iniFindSection(con, "EPC_FILE")
 
   section <- iniParseSectionLine(line)
 
@@ -519,8 +509,7 @@ iniReadEPCFile <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadWState <- function(con) {
-
-  line = iniFindSection(con, "W_STATE")
+  line <- iniFindSection(con, "W_STATE")
 
   section <- iniParseSectionLine(line)
 
@@ -541,8 +530,7 @@ iniReadWState <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadCState <- function(con) {
-
-  line = iniFindSection(con, "C_STATE")
+  line <- iniFindSection(con, "C_STATE")
 
   section <- iniParseSectionLine(line)
 
@@ -590,8 +578,7 @@ iniReadCState <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadNState <- function(con) {
-
-  line = iniFindSection(con, "N_STATE")
+  line <- iniFindSection(con, "N_STATE")
 
   section <- iniParseSectionLine(line)
 
@@ -612,7 +599,6 @@ iniReadNState <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadOutputControl <- function(con) {
-
   line <- iniFindSection(con, "OUTPUT_CONTROL")
 
   section <- iniParseSectionLine(line)
@@ -647,8 +633,7 @@ iniReadOutputControl <- function(con) {
 #' @return the data frame containing the section data
 #'
 iniReadOutput <- function(con, section) {
-
-  line = iniFindSection(con, section)
+  line <- iniFindSection(con, section)
 
   section <- iniParseSectionLine(line)
 
@@ -673,8 +658,7 @@ iniReadOutput <- function(con, section) {
 #' @return the data frame containing the section data
 #'
 iniReadEndInit <- function(con) {
-
-  line = iniFindSection(con, "END_INIT")
+  line <- iniFindSection(con, "END_INIT")
 
   section <- iniParseSectionLine(line)
 
