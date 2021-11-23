@@ -1,15 +1,20 @@
 
-#' bgcExecuteSpinup
+#' Execute a spinup simulation
 #'
-#' Executes a spinup simulation by calling the underlying BiomeBGC C library
+#' Calls the the underlying BiomeBGC C library.
+#'
 #' @param argv (Character Vector) : Arguments for the BiomeBGC library (same as 'bgc' commandline application)
 #' @param iniFiles (String vector) : The list of ini files to simulate, one per site.
-#' The files can be either spinup ini files or "go" ini files.  A "go" file will be automatically modified for spinup phase.
+#'                 The files can be either spinup ini files or "go" ini files.
+#'                 A "go" file will be automatically modified for spinup phase.
+#' @param path (Character String) : Path to base directory to use for simulations.
 #'
 #' @return a list containing the resulting error code (0 means no error) and the ini file structure
 #'
 #' @export
-bgcExecuteSpinup <- function(argv = "-a", iniFiles) {
+bgcExecuteSpinup <- function(argv = "-a", iniFiles, path) {
+  createIOdirs(path)
+
   iniList <- vector(mode = "list", length = length(iniFiles))
 
   for (i in 1:length(iniFiles)) {
@@ -21,9 +26,9 @@ bgcExecuteSpinup <- function(argv = "-a", iniFiles) {
       ini <- iniMakeSpinup(ini)
     }
 
-    ini <- iniFixPaths(ini)
+    ini <- iniFixPaths(path, ini)
 
-    iniFiles[i] <- paste(file, ".spinup.fixed", sep = "")
+    iniFiles[i] <- paste0(file, ".spinup.fixed")
 
     iniWrite(ini, iniFiles[i])
 
@@ -43,7 +48,8 @@ bgcExecuteSpinup <- function(argv = "-a", iniFiles) {
 #' Executes a simulation by calling the underlying BiomeBGC C library
 #' @param argv (Character Vector) : Arguments for the BiomeBGC library (same as 'bgc' commandline application)
 #' @param iniFiles (String vector) : The list of ini files to simulate, one per site.
-#' The files are expected to be specified for "go mode"
+#'                 The files are expected to be specified for "go mode".
+#' @param path (Character String) : Path to base directory to use for simulations.
 #' @param simYearsOverride The number of years to simulate (will override simyears from the ini file if specified).
 #' @param firstRun this parameter will make the necessary changes in the ini file for the first run.
 #' set to FALSE only when calling subsequent simulation steps in single step mode
@@ -51,7 +57,9 @@ bgcExecuteSpinup <- function(argv = "-a", iniFiles) {
 #' @return a list containing the resulting error code (0 means no error) and the ini file structure (one per ini file input)
 #'
 #' @export
-bgcExecute <- function(argv = "-a", iniFiles, simYearsOverride = -1, firstRun = TRUE) {
+bgcExecute <- function(argv = "-a", iniFiles, path, simYearsOverride = -1, firstRun = TRUE) {
+  createIOdirs(path)
+
   if (simYearsOverride <= 0) {
     firstRun <- TRUE # should always be TRUE when not in single step mode
   }
@@ -61,10 +69,10 @@ bgcExecute <- function(argv = "-a", iniFiles, simYearsOverride = -1, firstRun = 
   for (i in 1:length(iniFiles)) {
     file <- iniFiles[i]
     ini <- iniRead(file)
-    ini <- iniFixPaths(ini)
+    ini <- iniFixPaths(path, ini)
     ini <- iniMakeSingleStep(ini, firstRun)
 
-    iniFiles[i] <- paste(file, ".go.fixed", sep = "")
+    iniFiles[i] <- paste0(file, ".go.fixed")
 
     iniWrite(ini, iniFiles[i])
 

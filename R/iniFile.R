@@ -110,29 +110,30 @@ iniWrite <- function(ini, fileName, title = "", description = "") {
 #'
 #' C++ lib requires absolute paths.
 #'
-#' @param ini the ini data structure returned by iniRead()
+#' @param ini the ini data structure returned by `iniRead()`
+#' @param path (Character String) : Path to base directory to use for simulations.
 #'
 #' @export
-iniFixPaths <- function(ini) {
+iniFixPaths <- function(path, ini) {
   # meteorology input filename
   section <- "MET_INPUT"
   index <- 1
   filename <- iniGet(ini, section, index)
-  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
+  newFilename <- file.path(path, filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   # input restart filename
   section <- "RESTART"
   index <- 5
   filename <- iniGet(ini, section, index)
-  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
+  newFilename <- file.path(path, filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   # output restart filename
   section <- "RESTART"
   index <- 6
   filename <- iniGet(ini, section, index)
-  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
+  newFilename <- file.path(path, filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   # annual variable CO2 filename
@@ -140,7 +141,7 @@ iniFixPaths <- function(ini) {
   index <- 3
   if (iniGet(ini, section, 1) == "1") { # filename must be corrected only if in file variation mode
     filename <- iniGet(ini, section, index)
-    newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
+    newFilename <- file.path(path, filename)
     ini <- iniSet(ini, section, index, newFilename)
   }
 
@@ -148,14 +149,14 @@ iniFixPaths <- function(ini) {
   section <- "EPC_FILE"
   index <- 1
   filename <- iniGet(ini, section, index)
-  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
+  newFilename <- file.path(path, filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   # prefix for output files
   section <- "OUTPUT_CONTROL"
   index <- 1
   filename <- iniGet(ini, section, index)
-  newFilename <- file.path(system.file("", package = "BiomeBGCR"), filename)
+  newFilename <- file.path(path, filename)
   ini <- iniSet(ini, section, index, newFilename)
 
   return(ini)

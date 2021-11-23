@@ -2,19 +2,22 @@
 % Please edit documentation in R/wrapper.R
 \name{bgcExecuteSpinup}
 \alias{bgcExecuteSpinup}
-\title{bgcExecuteSpinup}
+\title{Execute a spinup simulation}
 \usage{
-bgcExecuteSpinup(argv = "-a", iniFiles)
+bgcExecuteSpinup(argv = "-a", iniFiles, path)
 }
 \arguments{
 \item{argv}{(Character Vector) : Arguments for the BiomeBGC library (same as 'bgc' commandline application)}
 
 \item{iniFiles}{(String vector) : The list of ini files to simulate, one per site.
-The files can be either spinup ini files or "go" ini files.  A "go" file will be automatically modified for spinup phase.}
+The files can be either spinup ini files or "go" ini files.
+A "go" file will be automatically modified for spinup phase.}
+
+\item{path}{(Character String) : Path to base directory to use for simulations.}
 }
 \value{
 a list containing the resulting error code (0 means no error) and the ini file structure
 }
 \description{
-Executes a spinup simulation by calling the underlying BiomeBGC C library
+Calls the the underlying BiomeBGC C library.
 }

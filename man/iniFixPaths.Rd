@@ -4,10 +4,12 @@
 \alias{iniFixPaths}
 \title{Fix all the relative paths inside the ini file}
 \usage{
-iniFixPaths(ini)
+iniFixPaths(path, ini)
 }
 \arguments{
-\item{ini}{the ini data structure returned by iniRead()}
+\item{path}{(Character String) : Path to base directory to use for simulations.}
+
+\item{ini}{the ini data structure returned by \code{iniRead()}}
 }
 \description{
 C++ lib requires absolute paths.

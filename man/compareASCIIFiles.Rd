@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{compareASCIIFiles}
 \alias{compareASCIIFiles}
-\title{compareASCIIFiles}
+\title{Compares two ASCII files}
 \usage{
 compareASCIIFiles(fileNameA, fileNameB)
 }

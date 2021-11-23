@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{compareASCIILines}
 \alias{compareASCIILines}
-\title{compareASCIILines}
+\title{Compares a specific line in two ASCII files}
 \usage{
 compareASCIILines(fileNameA, fileNameB, lineIndexA, lineIndexB)
 }

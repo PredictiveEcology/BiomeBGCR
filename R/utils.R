@@ -1,6 +1,5 @@
-#' compareASCIIFiles
-#'
 #' Compares two ASCII files
+#'
 #' @param fileNameA the name of file A
 #' @param fileNameB the name of file B
 #'
@@ -39,9 +38,8 @@ compareASCIIFiles <- function(fileNameA, fileNameB) {
   return(TRUE)
 }
 
-#' compareASCIILines
-#'
 #' Compares a specific line in two ASCII files
+#'
 #' @param fileNameA the name of file A
 #' @param fileNameB the name of file B
 #' @param lineIndexA the line number to compare in file A
@@ -63,8 +61,18 @@ compareASCIILines <- function(fileNameA, fileNameB, lineIndexA, lineIndexB) {
   close(conB)
 
   if (lineA != lineB) {
-    print(paste("compareASCIILines found different : ", lineA, " with ", lineB), sep = "")
+    message("compareASCIILines found differences:\n", lineA, "\n", lineB)
   }
 
   return(lineA == lineB)
+}
+
+createIOdirs <- function(path) {
+  sampleInputsDir <- system.file("inputs", package = "BiomeBGCR")
+  sampleInputFiles <- list.files(sampleInputsDir, recursive = TRUE)
+
+  vapply(unique(dirname(sampleInputFiles)), function(d) {
+    dir.create(file.path(path, "inputs", d), recursive = TRUE, showWarnings = FALSE)
+  }, logical(1))
+  dir.create(file.path(path, "outputs"), recursive = TRUE, showWarnings = FALSE)
 }

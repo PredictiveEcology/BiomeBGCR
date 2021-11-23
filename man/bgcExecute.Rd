@@ -4,13 +4,15 @@
 \alias{bgcExecute}
 \title{bgcExecute}
 \usage{
-bgcExecute(argv = "-a", iniFiles, simYearsOverride = -1, firstRun = TRUE)
+bgcExecute(argv = "-a", iniFiles, path, simYearsOverride = -1, firstRun = TRUE)
 }
 \arguments{
 \item{argv}{(Character Vector) : Arguments for the BiomeBGC library (same as 'bgc' commandline application)}
 
 \item{iniFiles}{(String vector) : The list of ini files to simulate, one per site.
-The files are expected to be specified for "go mode"}
+The files are expected to be specified for "go mode".}
+
+\item{path}{(Character String) : Path to base directory to use for simulations.}
 
 \item{simYearsOverride}{The number of years to simulate (will override simyears from the ini file if specified).}
 

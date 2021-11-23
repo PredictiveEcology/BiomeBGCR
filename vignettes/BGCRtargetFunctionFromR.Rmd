@@ -326,51 +326,57 @@ Could use the PhD runs to run "multiple" pixels (Boisvenue and Running 2010)
 
 # binToText function
 
-binToText is a function that converts single floating point binary data
-into ascii text data.  This function was written for Biome BGC output
-but could be used for any data that was single floating point precision
-and was in tabular form.  It takes directory arguments (or NA's if you
-are already in the correct directory, a unique suffix to identify the
-file or files you want to convert (or NA if you want to convert all files),
-the number of variables (columns), the number of years (rows), and
-the starting year (first row, this could also be NA if you would like the
-output to start at 0. Modified for any specified no of var (varNo)
-C. Boisvenue Oct.16, 2006
+`binToText` is a function that converts single floating point binary data into ASCII text data.
+This function was written for Biome BGC output but could be used for any data that was single floating point precision and was in tabular form.
+It takes directory arguments (or `NA`s if you are already in the correct directory, a unique suffix to identify the file or files you want to convert (or NA if you want to convert all files), the number of variables (columns), the number of years (rows), and the starting year (first row, this could also be `NA` if you would like the output to start at 0. Modified for any specified no of var (`varNo`).
+
+C. Boisvenue Oct. 16, 2006
 
 ```{r binToText, eval=FALSE, echo=TRUE}
-binToText <- function(inDir, outDir, uniqueSuf, varNo, years, startYear){
+binToText <- function(inDir, outDir, uniqueSuf, varNo, years, startYear) {
+  if (!is.na(inDir)) {
+    setwd(inDir)
+  }
+  if (is.na(uniqueSuf)) {
+    binFile <- dir()
+  } else {
+    binFiles <- grep(uniqueSuf, dir(), value = TRUE)
+  }
+  if (!is.na(outDir)) {
+    setwd(outDir)
+  }
+  if (is.na(startYear)) {
+    startYear <- 1
+  }
+  entries <- years * varNo
 
-  if(!is.na(inDir)){ setwd(inDir) }
-  if(is.na(uniqueSuf)){ binFile <- dir() }
-  else{   binFiles <- grep(uniqueSuf,dir(),value=TRUE) }
-  if(!is.na(outDir)){ setwd(outDir) }
-  if(is.na(startYear)){ startYear <- 1 }
-  entries <- years*varNo
-
-  for(i in 1:length(binFiles)){
-    dataMat <- matrix(nrow=years,ncol=varNo+1)
-    bfile <- file(binFiles[i],"rb")
-    outFile <- file(paste(binFiles[i],"txt",sep="."),"w")
-    dt <- readBin(bfile,double(),entries,size=4)
-    for(j in 1:years){
-      vec <- c(startYear-1+j,dt[(j*varNo-(varNo-1)):(j*varNo)])
-      dataMat[j,] <- vec
+  for (i in 1:length(binFiles)) {
+    dataMat <- matrix(nrow = years, ncol = varNo + 1)
+    bfile <- file(binFiles[i], "rb")
+    outFile <- file(paste(binFiles[i], "txt", sep = "."), "w")
+    dt <- readBin(bfile, double(), entries, size = 4)
+    for (j in 1:years) {
+      vec <- c(startYear - 1 + j, dt[(j * varNo - (varNo - 1)):(j * varNo)])
+      dataMat[j, ] <- vec
     }
     write.table(dataMat, outFile, sep = "\t", row.names = FALSE, col.names = FALSE)
-    close(outFile); close(bfile)
-    print(paste("Finished: ",binFiles[i], ".  FileNo ",i," of ",length(binFiles),sep=""))
+    close(outFile)
+    close(bfile)
+    print(paste("Finished: ", binFiles[i], ".  FileNo ", i, " of ", length(binFiles), sep = ""))
   }
 }
-# running it - works!
-binToText("C:/Celine/Active_UMontana/Research/HewlettNCEP/runs/runs4_noDist",
-          "C:/Celine/Active_UMontana/Research/HewlettNCEP/runs/runs4_noDist",
-          ".annavgout",24,140,1950)
-#C:\Celine\Active_UMontana\Research\HewlettNCEP\runs\runs4_noDist
-#CelineRuns3\\outputs_daily
-#"C:\\Celine\\Active_UMontana\\Research\\HewlettNCEP\\runs\\dist2\\biomebgc-4.3beta2\\outputs_dist1 
-#"C:\\Celine\\Active_UMontana\\Research\\HewlettNCEP\\runs\\dist2\\biomebgc-4.3beta2\\outputs_dist1
-```
 
+# running it - works!
+binToText(
+  "C:/Celine/Active_UMontana/Research/HewlettNCEP/runs/runs4_noDist",
+  "C:/Celine/Active_UMontana/Research/HewlettNCEP/runs/runs4_noDist",
+  ".annavgout", 24, 140, 1950
+)
+# C:\Celine\Active_UMontana\Research\HewlettNCEP\runs\runs4_noDist
+# CelineRuns3\\outputs_daily
+# "C:\\Celine\\Active_UMontana\\Research\\HewlettNCEP\\runs\\dist2\\biomebgc-4.3beta2\\outputs_dist1
+# "C:\\Celine\\Active_UMontana\\Research\\HewlettNCEP\\runs\\dist2\\biomebgc-4.3beta2\\outputs_dist1
+```
 
 # References
 

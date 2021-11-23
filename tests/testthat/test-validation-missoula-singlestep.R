@@ -1,13 +1,20 @@
 test_that("Missoula example validation test using single step mode", {
   argv <- "-a"
 
-  iniFileName <- system.file("inputs/ini/enf_test1.ini", package = "BiomeBGCR")
-  message("iniFileName: ", iniFileName)
+  tmpd <- tempdir()
+  createIOdirs(tmpd)
 
-  res <- bgcExecuteSpinup(argv, c(iniFileName))
-  if (res[[1]] != 0) {
-    stop(paste("bgcExecute failed with error ", res[[1]]))
-  }
+  sampleInputsDir <- system.file("inputs", package = "BiomeBGCR")
+  sampleInputFiles <- list.files(sampleInputsDir, recursive = TRUE)
+
+  expect_true({
+    all(file.copy(file.path(sampleInputsDir, sampleInputFiles),
+                  file.path(tmpd, "inputs", sampleInputFiles)))
+  })
+
+  iniFileName <- file.path(tmpd, "inputs", "ini", "enf_test1.ini")
+
+  res <- bgcExecuteSpinup(argv, c(iniFileName), tmpd)
 
   ini <- res[[2]][[1]]
 
@@ -15,10 +22,7 @@ test_that("Missoula example validation test using single step mode", {
 
   # execute one-year steps and compare with reference annual results every step
   for (i in 1:nbYears) {
-    res <- bgcExecute(argv, c(iniFileName), 1, i == 1)
-    if (res[[1]] != 0) {
-      stop(paste("bgcExecute failed with error ", res[[1]]))
-    }
+    res <- bgcExecute(argv, c(iniFileName), tmpd, 1, i == 1)
 
     ini <- res[[2]][[1]]
 
@@ -28,4 +32,7 @@ test_that("Missoula example validation test using single step mode", {
     # compare the reference output to the current output
     expect_true(compareASCIILines(resultFile, referenceFile, 11, 10 + i))
   }
+
+  unlink(file.path(tmpd, "inputs"), recursive = TRUE)
+  unlink(file.path(tmpd, "outputs"), recursive = TRUE)
 })
