@@ -60,11 +60,8 @@ bgcExecute <- function(argv = "-a", iniFiles, simYearsOverride = -1, firstRun = 
 
   for (i in 1:length(iniFiles)) {
     file <- iniFiles[i]
-
     ini <- iniRead(file)
-
     ini <- iniFixPaths(ini)
-
     ini <- iniMakeSingleStep(ini, firstRun)
 
     iniFiles[i] <- paste(file, ".go.fixed", sep = "")

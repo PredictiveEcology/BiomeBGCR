@@ -10,12 +10,9 @@ test_that("Boisvenue2010 example validation test using single step mode", {
     system.file("inputs/ini/spinup_y.ini", package = "BiomeBGCR")
   )
 
-  print(paste("spinupFileNames :", spinupFileNames, sep = ""))
+  message("spinupFileNames:\n", paste(spinupFileNames, collapse = "\n"))
 
   res <- bgcExecuteSpinup(argv, spinupFileNames)
-  if (res[[1]] != 0) {
-    stop(paste("bgcExecute failed with error ", res[[1]]))
-  }
 
   goFileNames <- c(
     system.file("inputs/ini/cccmat63_b.ini", package = "BiomeBGCR"),

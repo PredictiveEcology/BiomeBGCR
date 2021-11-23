@@ -41,7 +41,6 @@ test_that("Boisvenue2010 example validation test using single step mode", {
       lineSplit <- strsplit(resultFile, "/")[[1]]
       referenceFileRelative <- file.path("outputs", "reference", lineSplit[length(lineSplit)])
       referenceFile <- system.file(referenceFileRelative, package = "BiomeBGCR")
-      print(referenceFile)
 
       # compare the reference output to the current output
       res <- compareASCIILines(resultFile, referenceFile, 11, 10 + i)
