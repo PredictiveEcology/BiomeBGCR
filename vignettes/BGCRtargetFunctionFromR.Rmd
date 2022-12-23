@@ -28,19 +28,20 @@ Each section below looks at the individual files and suggests an avenue for cont
 
 # Initialization file
 
-This file will be referred to as the `.ini` file. Page 4 of the bgc_users_guide.pdf describes in detail the `.ini` file structure and requirements.
+This file will be referred to as the `.ini` file.
+Page 4 of the `bgc_users_guide.pdf` describes in detail the `.ini` file structure and requirements.
 All the sections and parameters defined in this file have to be modifiable either via a global script in SpaDES (example below) or by have some of the parameters in an R-object (in the `sim$`) that can be modified.
 An example of a global script and of the section that would be used in a module to build an object (`sim$bgc.ini`) are given below (2 separate code blocks).
-Note that each R-object in the lists match the blocks in the `.ini` file example provided in the `bgc_users_guide.pdf`. Some of these objects, the ones that are much less likely to change are in the module script (`BiomeBGCR_default`) and the ones with user-control are in the global script.
+Note that each R-object in the lists match the blocks in the `.ini` file example provided in the `bgc_users_guide.pdf`.
+Some of these objects, the ones that are much less likely to change are in the module script and the ones with user-control are in the global script.
 
 
 ```{r example_global_script_for_SpaDES, echo = TRUE, eval = FALSE}
 library(Require)
-Require("SpaDES.core")
-# the line below assumes we will create a package that has functions we can use in BiomeBGCR simulations
-Require("PredictiveEcology/BiomeBGCRutils")
+Require(c("PredictiveEcology/BiomeBGCRutils@development",
+          "PredictiveEcology/SpaDES.core@development",
+          "PredictiveEcology/SpaDES.install@development"))
 
-# SpaDES has a set of 
 options("reproducible.useRequire" = TRUE)
 cacheDir <- reproducible::checkPath("cache", create = TRUE)
 moduleDir <- reproducible::checkPath("modules")
@@ -48,276 +49,71 @@ inputDir <- reproducible::checkPath("inputs", create = TRUE)
 outputDir <- reproducible::checkPath("outputs", create = TRUE)
 scratchDir <- file.path(tempdir(), "scratch", "BiomeBGC") %>% reproducible::checkPath(create = TRUE)
 
+# get BGC module (https://github.com/PredictiveEcology/BGC) and save to moduleDir
+getModule("PredictiveEcology/BGC@development", overwrite = FALSE, modulePath = modulePath)
+
 # this sets options globally
 setPaths(
   cachePath = cacheDir,
   modulePath = moduleDir,
   inputPath = inputDir,
   outputPath = outputDir,
-  rasterPath = scratchDir
+  rasterPath = file.path(scratchDir, "raster"),
+  terraPath = file.path(scratchDir, "terra")
 )
 
-# this is an example of how .ini input could be controlled in this global script
-objects <- list(
-  met_input = file.path(inputDir, "metData", "nameOfMetFile"),
-  met_header = 4,
-  # 1) flag (1 or 0) for reading (1) or not reading (0) a restart file from the
-  # end of a previous simulation 
-  # 2) flag (1 or 0) for writing (1) or not writing (0) a restart file at the end of    # this simulation 
-  # 3) flag (1 or 0) for met year from restart file (1) or met year reset to beginning   # of record (0)
-  restart_flag = c(1,0,1),
-  restart_inputFile =  file.path(inputDir, "restart", "nameOfFile"),
-  restart_outputFile = file.path(outputDir, "restart", "nameOfFile"),
-  epc_file = file.path(inputDir, "epc", "nameOfepcFile"),
-  # OUTPUT_CONTROL block
-  # 1) text string giving the prefix for all output files, including path if
-  # appropriate. 
-  # 2) flag (1 or 0) to write (1) or not write (0) a binary output
-  # file with daily values 
-  # 3) flag (1 or 0) to write (1) or not write (0) a
-  # binary output file with monthly averages of the daily variables 
-  # 4) flag (1
-  # or 0) to write (1) or not write (0) a binary output file with annual
-  # averages of the daily variables 
-  # 5) flag (1 or 0) to write (1) or not write
-  # (0) a binary output file with year-end values 
-  # 6) flag (1 or 0) to send (1)
-  # or not send (0) simultation progress information to the screen
-  outputPrefix = "rBgc",
-  output_control = c(1, 0, 0, 0, 1),
-  # DAILY_OUTPUT block of the .ini
-  # 1) the number of daily output variables requested. This value can be 0.
-  # 2) the index number for the first requested daily output variable
-  # 3) etc.
-  daily_outLength = 3,
-  daily_output = vector(mode = "integer", length = daily_outLength),
-  annual_outLength = 6,
-  annual_output = vector(mode = "integer", length = daily_outLength)
- 
-)
-# TIME_DEFINE block in the .ini can be derived from these
 times <- list(start = 1950, end = 1994)
 
+## this is an example of how .ini input could be controlled in this global script,
+## passing 
+params = list(
+  BGC = list(
+    epc_file = file.path(prjPaths$inputPath, "epc", "nameOfepcFile"),            ## TODO
+    met_input = file.path(prjPaths$inputPath, "metData", "nameOfMetFile"),       ## TODO
+    restart_inputFile =  file.path(prjPaths$inputPath, "restart", "nameOfFile"), ## TODO
+    restart_outputFile = file.path(prjPaths$outputPath, "restart", "nameOfFile"), ## TODO
+    ## ---------------------------------------------------------------------------------------------
+    .plots = c("screen", "png", "raw"),
+    .studyAreaName = if (.mode == "production") "WBI" else "test"
+  )
+)
 ```
-
-
-
-```{r BiomeBGCR_default_module, echo=TRUE, eval=FALSE}
-## in the default structure of a SpaDES module, there is a module definition
-## section. Within that there is a list for expected inputs. This is where the
-## list of objects needed for the .ini file that are provided in the global
-## script (example above) would be listed. Example:
-  inputObjects = bindrows(
-    expectsInput(objectName = "met_input", objectClass = "character", 
-                 desc = "Where to fin the meteorological data",
-                 sourceURL = NA),
-    expectsInput(objectName = "met_header", objectClass = "integer", 
-                 desc = "number of line of heading in the met file" ,
-                 sourceURL = NA),
-    expectsInput(objectName = "restart_flag", 
-                 objectClass = "vector of integers lenght 3", 
-                 desc = 
-                   "1) flag (1 or 0) for reading (1) or not reading (0) a restart file from the end of a previous simulation, 
-                    2) flag (1 or 0) for writing (1) or not writing (0) a restart file at the end of this simulation, 
-                    3) flag (1 or 0) for met year from restart file (1) or met year reset to beginningof record (0).",
-                 sourceURL = NA),
-    expectsInput(objectName = "restart_inputFile", objectClass = "character", 
-                 desc = "Where to find the restart file in a "go" mode run",
-                 sourceURL = NA),
-    expectsInput(objectName = "restart_outputFile", objectClass = "character", 
-                 desc = "Where to store the spinup output file in spinup mode",
-                 sourceURL = NA),
-    expectsInput(objectName = "epc_file", objectClass = "character", 
-                 desc = "Path to the ecophysiological contants file",
-                 sourceURL = NA),
-    expectsInput(objectName = "outputPrefix", objectClass = "character", 
-                 desc = "text string giving the prefix for all output files",
-                 sourceURL = NA),
-    expectsInput(objectName = "output_control", 
-                 objectClass = "vector of integers lenght 5", 
-                 desc = "- flag (1 or 0) to write (1) or not write (0) a binary output file with daily values;
-                         - flag (1 or 0) to write (1) or not write (0) a binary output file with monthly averages of the daily variables 
-                         - flag (1 or 0) to write (1) or not write (0) a binary output file with annual averages of the daily variables 
-                         -  flag (1 or 0) to write (1) or not write (0) a binary output file with year-end values 
-                         - flag (1 or 0) to send (1) or not send (0) simultation progress information to the screen"
-                 sourceURL = NA),
-    expectsInput(objectName = "daily_outLength", 
-                 objectClass = "integer", 
-                 desc = "number of output variables selected for daily reporting",
-                 sourceURL = NA),
-    expectsInput(objectName = "daily_output", objectClass = "vector", 
-                 desc = "The index number for the first requested daily output variable. There are more than 500 possible output variables. The index value for each variable is defined in the file output_map_init.c. The variables requested in this section are reported daily.",
-                 sourceURL = NA),
-
-    expectsInput(objectName = "annual_outLength", 
-                 objectClass = "integer", 
-                 desc = "number of output variables selected for annual reporting",
-                 sourceURL = NA),
-    expectsInput(objectName = "annual_output", objectClass = "vector", 
-                 desc = "The index number for the first requested daily output variable. There are more than 500 possible output variables. The index value for each variable is defined in the file output_map_init.c. The variables requested in this section are reported once each year (yearday 365).",
-                 sourceURL = NA)
-  )
-
-## there is also a section for the objects created in the script
-outputObjects = bindrows(
-    createsOutput(objectName = "bgc.ini", objectClass = "dataset",
-                  desc = "Default parameters for Biome-BGCR run"))
-  )
-
-## within this BiomeBGCR_default module, an object could be created (similarly to the sim$cbmData created in the CBM_default module's init event)
-
-Init <- function(sim) {
-  # # ! ----- EDIT BELOW ----- ! #
-  
-  # Default parameters could be read in from an external file (example not
-  # provided), or by building an R-object containing all parameters not provided
-  # in the global script or by any other module.
-  
-  # this is the S4 object stores the parameters in the simList. Note that each
-  # slot could be a different format (whichever format seems to most appropriate
-  # vectors, matrices, etc.). Also note: some of these parameters will be
-  # point/pixel/pixelGroup specific and some constant. We could built different
-  # objects
-  sim$bgc.ini <- new("dataset",
-  # part of the TIME_DEFINE block of the .ini file
-  max_spinup = 6000,
-  # CLIM_CHANGE block of the .ini
-  clim_change = c(0.0, 0.0, 1.0, 1.0),
-  # CO2_CONTROL block in the .ini
-  # 1) flag (0,1,2) controlling CO2 concentration: 0=constant, 1=varying using
-  # values from a special file, 2=constant, but use the CO2 values in the
-  # specified file to control levels of N deposition (see below for N deposition
-  # options).
-  # 2) the value to use for constant CO2 concentration (ppm)
-  co2_control = c(0, 425),
-  co2_file = file.path(inputDir, "co2", "nameOfFile"),
-  # matches the SITE block in the .ini file
-  # 1) rooting zone soil depth, after accounting for the fraction of the rooting
-  # zone occupied by rocks
-  # 2) soil texture: percent sand (by volume in rock-free soil)
-  # 3) soil texture: percent silt (by volume in rock-free soil)
-  # 4) soil texture: percent clay (by volume in rock-free soil)
-  # 5) site elevation in meters above mean sea level
-  # 6) site latitude in decimal degrees (negative values for southern hemisphere)
-  # 7) site shortwave albedo
-  # 8) annual rate of atmospheric nitrogen deposition (wet + dry deposition)
-  # 9) annual rate of symbiotic + asymbiotic nitrogen fixation
-  site = c(1.0, 30.0, 50.0, 20.0, 977.0, 46.8, 0.2, 0.0001, 0.008),
-  # matches the RAMP_NDEP block of the .inin
-  # 1) flag (1 or 0) for variable nitrogen deposition (1) or constant nitrogen
-  # depostition (0)
-  # 2) the reference year for industrial nitrogen deposition value
-  # 3) the reference value for industrial nitrogen deposition
-  ramp_ndep = c(0, 2099, 0.0001),
-  # matches the W_STATE block in the .ini file
-  # 1) initial snowpack water content (start of simulation)
-  # 2) initial soil water content as a proportion of saturation
-  w_state = c(0.0, 0.5),
-  # C_STATE block in the .ini file
-  # 1) peak leaf carbon to be attained during the first simulation year
-  # 2) peak stem carbon to be attained during the first year
-  # 3) initial coarse woody debris carbon (dead trees, standing or fallen)
-  # 4) initial litter carbon, labile pool
-  # 5) initial litter carbon, unshielded cellulose pool
-  # 6) initial litter carbon, shielded cellulose pool
-  # 7) initial litter carbon, lignin pool
-  # 8) soil carbon, fast pool
-  # 9) soil carbon, medium pool
-  # 10) soil carbon, slow pool
-  # 11) soil carbon, slowest pool
-  c_state = c(0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-  # N_STATE block of.ini file
-  # 1) litter nitrogen associated with labile litter carbon pool
-  # 2) soil mineral nitrogen pool
-  n_state = c(0.0, 0.0)
-  )
-
-  ## Ideally we would insert some sort of assertion here. This is an example
-  ## from the CBM_default module:
-  ## assertion to check if annual process proportional matrices all have a sumed
-  ## value of 1 per row.
-  propTransfer <- NULL
-  for (i in setdiff(names(sim$processes), "disturbanceMatrices")) {
-    makeDT <- matrixDT(matricesIn = sim$processes[[i]], indicesIn = names(sim$processes[[i]]))
-    propCheck <- checkProp(makeDT)
-    if (sum(propCheck$noLoss) != length(propCheck$noLoss))
-      stop("Transfer matrices have proportions different then 1: carbon is disappearing or appearing")
-  }
-
-  # ! ----- STOP EDITING ----- ! #
-
-  return(invisible(sim))
-}
-
-```
-
 
 # Meteorology
 
-This file will be referred to as the .mtc43 file. Meteorological data will come from different sources. 
-The reading in of these files is anticipated to be via URL or FTP site which is anticipated to be done via a `BiomeBGCR_dataPrep` module. 
+This file will be referred to as the `.mtc43` file. Meteorological data will come from different sources. 
+The reading in of these files is anticipated to be via URL or FTP site which is anticipated to be done via a module. 
 Ideally, the read-in data would be transformed via an R function to match the required structure of the c-based scripts. 
-Note that the example runs for one point, but that the .mtc43 files will have to be modified so that the scripts will be able to handle multiple points (points representing pixels or pixelGroups).
+Note that the example runs for one point, but that the `.mtc43` files will have to be modified so that the scripts will be able to handle multiple points (points representing pixels or `pixelGroups`).
 We could test multiple sites using the data from Boisvenue and Running (2010) which is easily available.
-The code chunk below gives an example from a data preparation module that read and formats external data.
-
-```{r CBM_dataPrep_inputObjectExample, echo=TRUE, eval=FALSE}
-Init <- function(sim) {
-   sim$mySpuDmids <- sim$userDist
-   mySpuFires <- sim$userDist[grep("wildfire", sim$userDist$distName, 
-                                   ignore.case = TRUE), ]
-}
-
-.inputObjects <- function(sim) {
-   if (!suppliedElsewhere(sim$userDist)) {
-    if (!suppliedElsewhere(sim$userDistFile)) {
-      sim$userDistFile <- extractURL("userDist")
-    }
-    sim$userDist <- prepInputs(url = sim$userDistFile,
-                                 fun = "data.table::fread",
-                                 destinationPath = dPath,
-                                 # purge = 7,
-                                 filename2 = "mySpuDmids.csv")
-  }
-}
-
-```
 
 # Ecophysioligical constants
 
-This file will be referred to as the .epc file. Similarly to the .ini file, all parameters need to be accessible in the R/SpaDES environment. This would be in the `.inputObjects` of the `BiomeBGCR_dataPrep_studyArea` module.
-
-```{r read-in_epc, echo=TRUE, eval=FALSE}
-library(data.table)
-# would add sim$
-bgc.epc <- fread(
-  "C:/Celine/github/BiomeBGCR/inputs/epc/bgc_epc_enf.csv")
-setnames(bgc.epc, names(bgc.epc), c("value", "units", "desc"))
-
-```
-
+This file will be referred to as the `.epc` file.
+Similarly to the `.ini` file, all parameters need to be accessible in the R/SpaDES environment.
 
 # Other considerations
 
 Restart files are the result of running Biome-BGC in a spinup mode. 
 In the R/SpaDES environment, we would like to be able to start simulations from another source than a restart (something based on actual data), or a least be able to adjust the restart file to match data.
 
-
 ## Potential source of Met data coming from MODIS
 
 MOD17 is the NPP calculation derived from the sensor Terra on the Earth Observation System. 
-This derivation is described in theMOD17C61UsersGuideV11Mar112021.pdf.  
+This derivation is described in the `MOD17C61UsersGuideV11Mar112021.pdf`.
 Biome-BGC is used to derive the Biome Properties Look-up Table (BPLUT) for the MOD17 calculations.
 The MOD17 algorithm computes productivity at a daily time step. 
 This is made possible by the daily global meteorological reanalysis data, including average and minimum air temperature, incident PAR and specific humidity, provided by the GMAO/NASA. 
 This may be a source of met data we need to consider.
-BiomSIM is another.
+BioSIM is another.
 More info on the MOD17 Met data derivation:
 The current version of GMAO/NASA is hourly time step data set with about half-degree spatial resolution (0.5 Latitude degree by 0.67 Longitude degree) generated by GEOS-5 data assimilation system (Rienecker et al. 2008). 
-They aggregated hourly data into daily scale for daily meteorological inputs to MOD17. For VPD, we are using daytime VPD not daily as photosynthesis is largely occurring during daytime. 
+They aggregated hourly data into daily scale for daily meteorological inputs to MOD17.
+For VPD, we are using daytime VPD not daily as photosynthesis is largely occurring during daytime. 
 Daytime is determined when hourly downward solar radiation is above zero. 
 Daytime VPD is the difference between daytime saturated vapor pressure estimated with daytime average air temperature and daily vapor pressure. 
-Daily vapor pressure is calculated with specific humidity and surface air pressure. GMAO/NASA, like other global meteorological reanalyses, contains uncertainties, especially for regions with poor weather station coverage and small-scale convection processes which cannot be sufficiently depicted by coarse resolution meteorological data assimilation system. 
+Daily vapor pressure is calculated with specific humidity and surface air pressure.
+GMAO/NASA, like other global meteorological reanalyses, contains uncertainties, especially for regions with poor weather station coverage and small-scale convection processes which cannot be sufficiently depicted by coarse resolution meteorological data assimilation system. 
 Therefore, uncertainties in GMAO/NASA and subsequent estimated GPP/NPP are higher in tropics than non-tropical regions (Zhao et al. 2006).
 
 # Functions and other info
@@ -328,7 +124,8 @@ Could use the PhD runs to run "multiple" pixels (Boisvenue and Running 2010)
 
 `binToText` is a function that converts single floating point binary data into ASCII text data.
 This function was written for Biome BGC output but could be used for any data that was single floating point precision and was in tabular form.
-It takes directory arguments (or `NA`s if you are already in the correct directory, a unique suffix to identify the file or files you want to convert (or NA if you want to convert all files), the number of variables (columns), the number of years (rows), and the starting year (first row, this could also be `NA` if you would like the output to start at 0. Modified for any specified no of var (`varNo`).
+It takes directory arguments (or `NA`s if you are already in the correct directory, a unique suffix to identify the file or files you want to convert (or `NA` if you want to convert all files), the number of variables (columns), the number of years (rows), and the starting year (first row, this could also be `NA` if you would like the output to start at 0.
+Modified for any specified no of var (`varNo`).
 
 C. Boisvenue Oct. 16, 2006
 
