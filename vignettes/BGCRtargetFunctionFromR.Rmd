@@ -333,39 +333,6 @@ It takes directory arguments (or `NA`s if you are already in the correct directo
 C. Boisvenue Oct. 16, 2006
 
 ```{r binToText, eval=FALSE, echo=TRUE}
-binToText <- function(inDir, outDir, uniqueSuf, varNo, years, startYear) {
-  if (!is.na(inDir)) {
-    setwd(inDir)
-  }
-  if (is.na(uniqueSuf)) {
-    binFile <- dir()
-  } else {
-    binFiles <- grep(uniqueSuf, dir(), value = TRUE)
-  }
-  if (!is.na(outDir)) {
-    setwd(outDir)
-  }
-  if (is.na(startYear)) {
-    startYear <- 1
-  }
-  entries <- years * varNo
-
-  for (i in 1:length(binFiles)) {
-    dataMat <- matrix(nrow = years, ncol = varNo + 1)
-    bfile <- file(binFiles[i], "rb")
-    outFile <- file(paste(binFiles[i], "txt", sep = "."), "w")
-    dt <- readBin(bfile, double(), entries, size = 4)
-    for (j in 1:years) {
-      vec <- c(startYear - 1 + j, dt[(j * varNo - (varNo - 1)):(j * varNo)])
-      dataMat[j, ] <- vec
-    }
-    write.table(dataMat, outFile, sep = "\t", row.names = FALSE, col.names = FALSE)
-    close(outFile)
-    close(bfile)
-    print(paste("Finished: ", binFiles[i], ".  FileNo ", i, " of ", length(binFiles), sep = ""))
-  }
-}
-
 # running it - works!
 binToText(
   "C:/Celine/Active_UMontana/Research/HewlettNCEP/runs/runs4_noDist",
