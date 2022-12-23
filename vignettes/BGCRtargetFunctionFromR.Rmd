@@ -73,8 +73,7 @@ params = list(
     restart_inputFile =  file.path(prjPaths$inputPath, "restart", "nameOfFile"), ## TODO
     restart_outputFile = file.path(prjPaths$outputPath, "restart", "nameOfFile"), ## TODO
     ## ---------------------------------------------------------------------------------------------
-    .plots = c("screen", "png", "raw"),
-    .studyAreaName = if (.mode == "production") "WBI" else "test"
+    .plots = c("screen", "png", "raw")
   )
 )
 ```
