@@ -1,4 +1,3 @@
-
 #' Execute a spinup simulation
 #'
 #' Calls the the underlying BiomeBGC C library.
