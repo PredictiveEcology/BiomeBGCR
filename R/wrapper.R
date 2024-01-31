@@ -42,7 +42,7 @@ bgcExecuteSpinup <- function(argv = "-a", iniFiles, path) {
   return(list(res, iniList))
 }
 
-#' bgcExecute
+#' `bgcExecute`
 #'
 #' Executes a simulation by calling the underlying BiomeBGC C library
 #' @param argv (Character Vector) : Arguments for the BiomeBGC library (same as 'bgc' commandline application)

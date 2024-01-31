@@ -2,7 +2,7 @@
 % Please edit documentation in R/wrapper.R
 \name{bgcExecute}
 \alias{bgcExecute}
-\title{bgcExecute}
+\title{\code{bgcExecute}}
 \usage{
 bgcExecute(argv = "-a", iniFiles, path, simYearsOverride = -1, firstRun = TRUE)
 }
