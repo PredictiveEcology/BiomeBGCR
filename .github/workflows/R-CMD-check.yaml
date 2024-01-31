@@ -23,7 +23,7 @@ jobs:
           - {os: macOS-latest,   r: 'release'}
           - {os: windows-latest, r: 'devel'}
           - {os: windows-latest, r: 'release'}
-          - {os: windows-latest, r: '4.0'}
+          - {os: windows-latest, r: 'oldrel'}
           - {os: ubuntu-20.04,   r: 'devel'}
           - {os: ubuntu-20.04,   r: 'release'}
           - {os: ubuntu-20.04,   r: 'oldrel'}
@@ -49,4 +49,17 @@ jobs:
             any::rcmdcheck
             any::Rcpp
 
-            - uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: r-lib/actions/check-r-package@v2
+
+      - name: Show testthat output
+        if: always()
+        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: check
+
