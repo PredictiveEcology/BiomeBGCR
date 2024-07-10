@@ -1,8 +1,8 @@
 Package: BiomeBGCR
 Type: Package
 Title: Run Biome-BGC models from R
-Version: 0.0.0.9001
-Date: 2024-01-31
+Version: 0.0.0.9002
+Date: 2024-07-10
 Authors@R: c(
     person("Alex M", "Chubaty", email = "achubaty@for-cast.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7146-8135")),
@@ -10,7 +10,7 @@ Authors@R: c(
     person("Celine", "Boisvenue", email = "celine.boisvenue@nrcan-rncan.gc.ca", role = c("aut")),
     person("Numerical Terradynamics Simulation Group (NTSG)", role = c("cph"))
     )
-Description: One paragraph description of what the package does as one or more full sentences.
+Description: Call and run Biome-BGC ecophysiological models in R.
 License: NA
 Encoding: UTF-8
 Language: en-CA
@@ -24,6 +24,6 @@ Suggests:
 LinkingTo: 
     Rcpp
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 Config/testthat/edition: 3
