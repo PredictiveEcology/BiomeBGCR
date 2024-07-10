@@ -37,20 +37,24 @@ Some of these objects, the ones that are much less likely to change are in the m
 
 
 ```{r example_global_script_for_SpaDES, echo = TRUE, eval = FALSE}
-library(Require)
-Require(c("PredictiveEcology/BiomeBGCRutils@development",
-          "PredictiveEcology/SpaDES.core@development",
-          "PredictiveEcology/SpaDES.install@development"))
+# install.packages("remotes")
+remotes::install_github("PredictiveEcology/BiomeBGCR@development")
+remotes::install_github("PredictiveEcology/SpaDES.core@development")
+remotes::install_github("PredictiveEcology/SpaDES.project@development")
 
-options("reproducible.useRequire" = TRUE)
+library(BiomeBGCR)
+library(SpaDES.core)
+
+options("reproducible.useRequire" = FALSE)
 cacheDir <- reproducible::checkPath("cache", create = TRUE)
 moduleDir <- reproducible::checkPath("modules")
 inputDir <- reproducible::checkPath("inputs", create = TRUE)
 outputDir <- reproducible::checkPath("outputs", create = TRUE)
-scratchDir <- file.path(tempdir(), "scratch", "BiomeBGC") %>% reproducible::checkPath(create = TRUE)
+scratchDir <- file.path(tempdir(), "scratch", "BiomeBGC") |>
+  reproducible::checkPath(create = TRUE)
 
 # get BGC module (https://github.com/PredictiveEcology/BGC) and save to moduleDir
-getModule("PredictiveEcology/BGC@development", overwrite = FALSE, modulePath = modulePath)
+SpaDES.project::getModule("PredictiveEcology/BGC@development", overwrite = FALSE, modulePath = moduleDir)
 
 # this sets options globally
 setPaths(
@@ -64,15 +68,13 @@ setPaths(
 
 times <- list(start = 1950, end = 1994)
 
-## this is an example of how .ini input could be controlled in this global script,
-## passing 
+## this is an example of how .ini input could be controlled in this main script:
 params = list(
   BGC = list(
-    epc_file = file.path(prjPaths$inputPath, "epc", "nameOfepcFile"),            ## TODO
-    met_input = file.path(prjPaths$inputPath, "metData", "nameOfMetFile"),       ## TODO
-    restart_inputFile =  file.path(prjPaths$inputPath, "restart", "nameOfFile"), ## TODO
+    epc_file = file.path(prjPaths$inputPath, "epc", "nameOfepcFile"),             ## TODO
+    met_input = file.path(prjPaths$inputPath, "metData", "nameOfMetFile"),        ## TODO
+    restart_inputFile =  file.path(prjPaths$inputPath, "restart", "nameOfFile"),  ## TODO
     restart_outputFile = file.path(prjPaths$outputPath, "restart", "nameOfFile"), ## TODO
-    ## ---------------------------------------------------------------------------------------------
     .plots = c("screen", "png", "raw")
   )
 )

@@ -43,7 +43,7 @@ Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for information on how to contri
 #### Linux
 
 Debugging the C++ code using Visual Studio Code can only be achieved under linux because of a limitation with gdb and Mingw64
-(see https://stackoverflow.com/questions/64723109/gdb-cant-debug-running-process-using-vs-code-but-can-through-command-line).
+(see <https://stackoverflow.com/questions/64723109/gdb-cant-debug-running-process-using-vs-code-but-can-through-command-line>).
 
 ##### Debugging setup for Visual Studio Code
 
