@@ -11,7 +11,7 @@ Authors@R: c(
     person("Numerical Terradynamics Simulation Group (NTSG)", role = c("cph"))
     )
 Description: Call and run Biome-BGC ecophysiological models in R.
-License: NA
+License: file LICENSE
 Encoding: UTF-8
 Language: en-CA
 LazyData: true
