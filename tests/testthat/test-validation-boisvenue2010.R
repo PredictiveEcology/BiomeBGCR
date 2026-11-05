@@ -45,7 +45,7 @@ test_that("Boisvenue2010 example validation test using single step mode", {
     resultFile <- paste0(iniGet(ini, "OUTPUT_CONTROL", 1), "_ann.txt")
     referenceFileRelative <- file.path("outputs", "reference", basename(resultFile))
     referenceFile <- system.file(referenceFileRelative, package = "BiomeBGCR")
-    # compare the reference output to the current output
+    ## compare the reference output to the current output
     res <- compareASCIIFiles(resultFile, referenceFile)
     expect_true(res)
   }

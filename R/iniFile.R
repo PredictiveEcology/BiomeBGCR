@@ -15,7 +15,7 @@ iniRead <- function(fileName) {
     "C_STATE", "N_STATE", "OUTPUT_CONTROL", "DAILY_OUTPUT", "ANNUAL_OUTPUT", "END_INIT"
   )
 
-  # read the title and description and set as attributes
+  ## read the title and description and set as attributes
   line <- readLines(con, n = 1)
   lineSplit <- strsplit(line, ":")
   attr(sections, "title") <- lineSplit[[1]][1]
@@ -114,28 +114,28 @@ iniWrite <- function(ini, fileName, title = "", description = "") {
 #'
 #' @export
 iniFixPaths <- function(path, ini) {
-  # meteorology input filename
+  ## meteorology input filename
   section <- "MET_INPUT"
   index <- 1
   filename <- iniGet(ini, section, index)
   newFilename <- file.path(path, filename)
   ini <- iniSet(ini, section, index, newFilename)
 
-  # input restart filename
+  ## input restart filename
   section <- "RESTART"
   index <- 5
   filename <- iniGet(ini, section, index)
   newFilename <- file.path(path, filename)
   ini <- iniSet(ini, section, index, newFilename)
 
-  # output restart filename
+  ## output restart filename
   section <- "RESTART"
   index <- 6
   filename <- iniGet(ini, section, index)
   newFilename <- file.path(path, filename)
   ini <- iniSet(ini, section, index, newFilename)
 
-  # annual variable CO2 filename
+  ## annual variable CO2 filename
   section <- "CO2_CONTROL"
   index <- 3
   if (iniGet(ini, section, 1) == "1") { # filename must be corrected only if in file variation mode
@@ -144,14 +144,14 @@ iniFixPaths <- function(path, ini) {
     ini <- iniSet(ini, section, index, newFilename)
   }
 
-  # evergreen needleleaf forest ecophysiological constants
+  ## evergreen needleleaf forest ecophysiological constants
   section <- "EPC_FILE"
   index <- 1
   filename <- iniGet(ini, section, index)
   newFilename <- file.path(path, filename)
   ini <- iniSet(ini, section, index, newFilename)
 
-  # prefix for output files
+  ## prefix for output files
   section <- "OUTPUT_CONTROL"
   index <- 1
   filename <- iniGet(ini, section, index)
@@ -266,7 +266,7 @@ iniParseSectionLine <- function(line, lookForSecondField = TRUE) {
 #' @return the line of the ini file starting with the specified tag
 #'
 iniFindSection <- function(con, tag) {
-  # Read section line
+  ## Read section line
   line <- readLines(con, n = 1)
 
   while (!startsWith(line, tag)) {
@@ -291,10 +291,10 @@ iniReadMetInput <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # meteorology input filename
+  ## meteorology input filename
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1), lookForSecondField = FALSE))
 
-  # header lines in met file
+  ## header lines in met file
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -312,22 +312,22 @@ iniReadRestart <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # read restart file
+  ## read restart file
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # write restart file
+  ## write restart file
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # use restart metyear
+  ## use restart metyear
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # use restart simyear
+  ## use restart simyear
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # input restart filename
+  ## input restart filename
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1), lookForSecondField = FALSE))
 
-  # output restart filename
+  ## output restart filename
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1), lookForSecondField = FALSE))
 
   return(section)
@@ -345,19 +345,19 @@ iniReadTimeDefine <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # number of meteorological data years
+  ## number of meteorological data years
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # number of simulation years
+  ## number of simulation years
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # first simulation year
+  ## first simulation year
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # 1 = spinup simulation    0 = normal simulation
+  ## 1 = spinup simulation    0 = normal simulation
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # maximum number of spinup years (if spinup simulation)
+  ## maximum number of spinup years (if spinup simulation)
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -375,19 +375,19 @@ iniReadClimChange <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # offset for Tmax
+  ## offset for Tmax
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # offset for Tmin
+  ## offset for Tmin
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # multiplier for Prcp
+  ## multiplier for Prcp
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # multiplier for VPD
+  ## multiplier for VPD
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # multiplier for shortwave radiation
+  ## multiplier for shortwave radiation
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -405,13 +405,13 @@ iniReadCO2Control <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # 0=constant 1=vary with file 2=constant, file for Ndep
+  ## 0=constant 1=vary with file 2=constant, file for Ndep
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # constant atmospheric CO2 concentration
+  ## constant atmospheric CO2 concentration
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # annual variable CO2 filename
+  ## annual variable CO2 filename
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -429,31 +429,31 @@ iniReadSite <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # effective soil depth (corrected for rock fraction)
+  ## effective soil depth (corrected for rock fraction)
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # sand percentage by volume in rock-free soil
+  ## sand percentage by volume in rock-free soil
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # silt percentage by volume in rock-free soil
+  ## silt percentage by volume in rock-free soil
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # clay percentage by volume in rock-free soil
+  ## clay percentage by volume in rock-free soil
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # site elevation
+  ## site elevation
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1), TRUE))
 
-  # site latitude (- for S.Hem.)
+  ## site latitude (- for S.Hem.)
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1), TRUE))
 
-  # site shortwave albedo
+  ## site shortwave albedo
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1), TRUE))
 
-  # wet+dry atmospheric deposition of N
+  ## wet+dry atmospheric deposition of N
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1), TRUE))
 
-  # symbiotic+asymbiotic fixation of N
+  ## symbiotic+asymbiotic fixation of N
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1), TRUE))
 
   return(section)
@@ -471,13 +471,13 @@ iniReadRampNdep <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # do a ramped N-deposition run? 0=no, 1=yes
+  ## do a ramped N-deposition run? 0=no, 1=yes
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # reference year for industrial N deposition
+  ## reference year for industrial N deposition
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # industrial N deposition value
+  ## industrial N deposition value
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -495,7 +495,7 @@ iniReadEPCFile <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # evergreen needleleaf forest ecophysiological constants
+  ## evergreen needleleaf forest ecophysiological constants
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -513,10 +513,10 @@ iniReadWState <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # water stored in snowpack
+  ## water stored in snowpack
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # initial soil water as a proportion of saturation
+  ## initial soil water as a proportion of saturation
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -534,37 +534,37 @@ iniReadCState <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # first-year maximum leaf carbon
+  ## first-year maximum leaf carbon
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # first-year maximum stem carbon
+  ## first-year maximum stem carbon
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # coarse woody debris carbon
+  ## coarse woody debris carbon
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # litter carbon, labile pool
+  ## litter carbon, labile pool
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # litter carbon, unshielded cellulose pool
+  ## litter carbon, unshielded cellulose pool
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # litter carbon, shielded cellulose pool
+  ## litter carbon, shielded cellulose pool
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # litter carbon, lignin pool
+  ## litter carbon, lignin pool
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # soil carbon, fast microbial recycling pool
+  ## soil carbon, fast microbial recycling pool
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # soil carbon, medium microbial recycling pool
+  ## soil carbon, medium microbial recycling pool
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # soil carbon, slow microbial recycling pool
+  ## soil carbon, slow microbial recycling pool
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # soil carbon, recalcitrant SOM (slowest)
+  ## soil carbon, recalcitrant SOM (slowest)
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -582,10 +582,10 @@ iniReadNState <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # litter nitrogen, labile pool
+  ## litter nitrogen, labile pool
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # soil nitrogen, mineral pool
+  ## soil nitrogen, mineral pool
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -603,22 +603,22 @@ iniReadOutputControl <- function(con) {
 
   section <- iniParseSectionLine(line)
 
-  # prefix for output files
+  ## prefix for output files
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # 1 = write daily output   0 = no daily output
+  ## 1 = write daily output   0 = no daily output
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # 1 = monthly avg of daily variables  0 = no monthly avg
+  ## 1 = monthly avg of daily variables  0 = no monthly avg
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # 1 = annual avg of daily variables   0 = no annual avg
+  ## 1 = annual avg of daily variables   0 = no annual avg
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # 1 = write annual output  0 = no annual output
+  ## 1 = write annual output  0 = no annual output
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
-  # for on-screen progress indicator
+  ## for on-screen progress indicator
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   return(section)
@@ -637,7 +637,7 @@ iniReadOutput <- function(con, section) {
 
   section <- iniParseSectionLine(line)
 
-  # number of variables to output
+  ## number of variables to output
   section <- rbind(section, iniParseSectionLine(readLines(con, n = 1)))
 
   nbOutputs <- strtoi(section[2, "value"])

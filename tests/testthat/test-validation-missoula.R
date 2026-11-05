@@ -21,7 +21,7 @@ test_that("Missoula example validation test", {
   ini <- res[[2]][[1]]
   resultFile <- paste0(iniGet(ini, "OUTPUT_CONTROL", 1), "_ann.txt")
   referenceFile <- system.file("outputs/reference/oth_ann.txt", package = "BiomeBGCR")
-  # compare the reference output to the current output
+  ## compare the reference output to the current output
   expect_true(compareASCIIFiles(resultFile, referenceFile))
 
   unlink(file.path(tmpd, "inputs"), recursive = TRUE)

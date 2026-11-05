@@ -36,11 +36,11 @@ test_that("Boisvenue2010 example validation test using single step mode", {
   ))
   expect_true(all(file.exists(goFileNames)))
 
-  # use the first ini file to get the number of simulation years because it is the same for all sites/scenarios
+  ## use the first ini file to get the number of simulation years because it is the same for all sites/scenarios
   ini <- iniRead(goFileNames[[1]])
   nbYears <- strtoi(iniGet(ini, "TIME_DEFINE", 2))
 
-  # execute one-year steps and compare with reference annual results every step
+  ## execute one-year steps and compare with reference annual results every step
   for (i in 1:nbYears) {
     message("Calling bgcExecute for year ", i)
 
@@ -51,7 +51,7 @@ test_that("Boisvenue2010 example validation test using single step mode", {
       referenceFileRelative <- file.path("outputs", "reference", basename(resultFile))
       referenceFile <- system.file(referenceFileRelative, package = "BiomeBGCR")
 
-      # compare the reference output to the current output
+      ## compare the reference output to the current output
       resini <- compareASCIILines(resultFile, referenceFile, 11, 10 + i)
       expect_true(resini)
     }

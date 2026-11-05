@@ -20,7 +20,7 @@ test_that("Missoula example validation test using single step mode", {
 
   nbYears <- strtoi(iniGet(ini, "TIME_DEFINE", 2))
 
-  # execute one-year steps and compare with reference annual results every step
+  ## execute one-year steps and compare with reference annual results every step
   for (i in 1:nbYears) {
     res <- bgcExecute(argv, c(iniFileName), tmpd, 1, i == 1)
 
@@ -29,7 +29,7 @@ test_that("Missoula example validation test using single step mode", {
     resultFile <- paste0(iniGet(ini, "OUTPUT_CONTROL", 1), "_ann.txt")
     referenceFile <- system.file("outputs/reference/oth_ann.txt", package = "BiomeBGCR")
 
-    # compare the reference output to the current output
+    ## compare the reference output to the current output
     expect_true(compareASCIILines(resultFile, referenceFile, 11, 10 + i))
   }
 

@@ -20,7 +20,7 @@ bgcExecuteSpinup <- function(argv = "-a", iniFiles, path) {
     file <- iniFiles[i]
     ini <- iniRead(file)
 
-    # check if we have to modify the ini files for spinup phase
+    ## check if we have to modify the ini files for spinup phase
     if (iniGet(ini, "TIME_DEFINE", 4) == "0") {
       ini <- iniMakeSpinup(ini)
     }
