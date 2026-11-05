@@ -99,7 +99,7 @@ int nyears)
 		/* read tmax, tmin, prcp, vpd, and srad */
 		/* the following scan statement discards the tday field in the
 		standard MTCLIM version 3.1 input file */
-		if (ok && fscanf(metf.ptr,"%*d%lf%lf%*lf%lf%lf%lf",&tmax,&tmin,&prcp,&vpd,&swavgfd)==EOF)
+		if (ok && fscanf(metf.ptr,"%*d%lf%lf%*f%lf%lf%lf",&tmax,&tmin,&prcp,&vpd,&swavgfd)==EOF)
 		{
 			bgc_printf(BV_ERROR, "Error reading met file, metarr_init()\n");
 			ok=0;

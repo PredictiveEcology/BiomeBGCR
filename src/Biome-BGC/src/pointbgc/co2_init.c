@@ -61,7 +61,7 @@ int co2_init(file init, co2control_struct* co2, int simyears)
 
 		/* Find the number of lines in the file*/
 		/* Then use that number to malloc the appropriate arrays */
-		while(fscanf(temp.ptr,"%*lf%*lf") != EOF)
+		while(fscanf(temp.ptr,"%*f%*f") != EOF)
 		{
 			reccount++;
 		}

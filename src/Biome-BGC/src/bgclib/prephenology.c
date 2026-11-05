@@ -172,12 +172,12 @@ phenarray_struct* phen)
 				Round and truncate to force these values between 1 and 
 				ngrowthdays */
 				t1 = epc->transfer_pdays * (double)ngrowthdays;
-				sprintf(round,"%.0f",t1);
+				snprintf(round,sizeof(round),"%.0f",t1);
 				ntransferdays = atoi(round);
 				if (ntransferdays < 1) ntransferdays = 1;
 				if (ntransferdays > ngrowthdays) ntransferdays = ngrowthdays;
 				t1 = epc->litfall_pdays * (double)ngrowthdays;
-				sprintf(round,"%.0f",t1);
+				snprintf(round,sizeof(round),"%.0f",t1);
 				nlitfalldays = atoi(round);
 				if (nlitfalldays < 1) nlitfalldays = 1;
 				if (nlitfalldays > ngrowthdays) nlitfalldays = ngrowthdays;
@@ -745,12 +745,12 @@ phenarray_struct* phen)
 				Round and truncate to force these values between 1 and 
 				ngrowthdays */
 				t1 = epc->transfer_pdays * (double)ngrowthdays;
-				sprintf(round,"%.0f",t1);
+				snprintf(round,sizeof(round),"%.0f",t1);
 				ntransferdays = atoi(round);
 				if (ntransferdays < 1) ntransferdays = 1;
 				if (ntransferdays > ngrowthdays) ntransferdays = ngrowthdays;
 				t1 = epc->litfall_pdays * (double)ngrowthdays;
-				sprintf(round,"%.0f",t1);
+				snprintf(round,sizeof(round),"%.0f",t1);
 				nlitfalldays = atoi(round);
 				if (nlitfalldays < 1) nlitfalldays = 1;
 				if (nlitfalldays > ngrowthdays) nlitfalldays = ngrowthdays;

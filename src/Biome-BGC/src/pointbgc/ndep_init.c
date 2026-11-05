@@ -24,7 +24,7 @@ int ndep_init(file ndepfile, ndepcontrol_struct* ndepctrl)
 
 	/* Find the number of lines in the file*/
 	/* Then use that number to malloc the appropriate arrays */
-	while(fscanf(ndepfile.ptr,"%*lf%*lf") != EOF) reccount++;
+	while(fscanf(ndepfile.ptr,"%*f%*f") != EOF) reccount++;
 	rewind(ndepfile.ptr);
 
 	/* Store the total number of ndep records found in the ndepvals variable */
