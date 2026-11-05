@@ -13,6 +13,7 @@ Call and run Biome-BGC ecophysiological models in R.
 
 Authors:
 \itemize{
+  \item Alex M Chubaty \email{achubaty@for-cast.ca} (\href{https://orcid.org/0000-0001-7146-8135}{ORCID})
   \item Jean-Francois Lavoie \email{atmailjfl@gmail.com}
   \item Céline Boisvenue \email{celine.boisvenue@nrcan-rncan.gc.ca}
 }
