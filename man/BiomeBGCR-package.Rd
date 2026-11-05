@@ -16,10 +16,15 @@ Authors:
   \item Alex M Chubaty \email{achubaty@for-cast.ca} (\href{https://orcid.org/0000-0001-7146-8135}{ORCID})
   \item Jean-Francois Lavoie \email{atmailjfl@gmail.com}
   \item Céline Boisvenue \email{celine.boisvenue@nrcan-rncan.gc.ca}
+  \item Peter E. Thornton (Biome-BGC original development)
 }
 
 Other contributors:
 \itemize{
+  \item W. Matt Jolly (Biome-BGC model development, bug fixing, testing) [contributor]
+  \item Andrew A. Neuschwander (Biome-BGC code integration and maintenance) [contributor]
+  \item Andy Michaelis (Biome-BGC bug fixes) [contributor]
+  \item Saxon Holbrook (Biome-BGC bug fixing, code integration, restart diff tool) [contributor]
   \item Numerical Terradynamics Simulation Group (NTSG) [copyright holder]
 }
 

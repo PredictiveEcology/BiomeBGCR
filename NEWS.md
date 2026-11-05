@@ -2,6 +2,7 @@
 
 First release.
 
+* The original Biome-BGC developers are credited: Peter E. Thornton as an author, and the other four in Biome-BGC's `CREDITS.TXT` as contributors (#1).
 * The package uses Biome-BGC's license (`LICENSE`), in place of `License: NA` (#5).
 * `bgcExecute()` runs Biome-BGC 4.2 simulations through the bundled C library, one site per `.ini` file, in a directory given by `path`; `bgcExecuteSpinup()` runs a spinup (#10).
 * `binToText()` converts Biome-BGC's binary output to text, and `compareASCIIFiles()` compares two text outputs.
