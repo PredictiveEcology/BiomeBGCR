@@ -13,7 +13,7 @@ We welcome contributions to `BiomeBGCR`, both as bug reports or package enhancem
 This Git repository uses the [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model (the [`git flow`](https://github.com/petervanderdoes/gitflow-avh) extension is useful for this).
 The [`development`](https://github.com/PredictiveEcology/BiomeBGCR/tree/development) branch contains the latest contributions and other code that will appear in the next release, and the [`main`](https://github.com/PredictiveEcology/BiomeBGCR/tree/main) branch contains the code of the latest release.
 
-To make a contribution to the package, just send a [pull request](https://doc.github.com/articles/using-pull-requests/). 
+To make a contribution to the package, just send a [pull request](https://doc.github.com/articles/using-pull-requests/).
 When you send your PR, make sure `development` is the destination branch on the [BiomeBGCR repository](https://github.com/PredictiveEcology/BiomeBGCR).
 Your PR should pass `R CMD check`, which will also be checked when the PR is submitted.
 
