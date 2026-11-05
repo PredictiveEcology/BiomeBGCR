@@ -67,7 +67,16 @@ int execute(char *argv[], int argc, int simYearsOverride)
 
 	/* Process command line arguments */
 	opterr = 0;
+#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
+	/* BSD getopt() is reset with optreset; with optind = 0 it would start at
+	argv[0] and take the program name as the ini file */
+	extern int optreset;
+	optreset = 1;
+	optind = 1;
+#else
+	/* glibc reinitialises getopt() when optind is 0 */
 	optind = 0;
+#endif
 	while((c = getopt(argc, argv, "pVsl:v:ugmn:a")) != -1)
 	{
 	  	int res;
