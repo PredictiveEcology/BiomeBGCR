@@ -33,6 +33,6 @@ Suggests:
 LinkingTo: 
     Rcpp
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: knitr
+VignetteBuilder: knitr, rmarkdown
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.1
