@@ -7,7 +7,7 @@ Authors@R: c(
     person("Alex M", "Chubaty", email = "achubaty@for-cast.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7146-8135")),
     person("Jean-Francois", "Lavoie", email = "atmailjfl@gmail.com", role = c("aut")),
-    person("Celine", "Boisvenue", email = "celine.boisvenue@nrcan-rncan.gc.ca", role = c("aut")),
+    person("Céline", "Boisvenue", email = "celine.boisvenue@nrcan-rncan.gc.ca", role = c("aut")),
     person("Numerical Terradynamics Simulation Group (NTSG)", role = c("cph"))
     )
 Description: Call and run Biome-BGC ecophysiological models in R.

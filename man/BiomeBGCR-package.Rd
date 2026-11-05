@@ -14,7 +14,7 @@ Call and run Biome-BGC ecophysiological models in R.
 Authors:
 \itemize{
   \item Jean-Francois Lavoie \email{atmailjfl@gmail.com}
-  \item Celine Boisvenue \email{celine.boisvenue@nrcan-rncan.gc.ca}
+  \item Céline Boisvenue \email{celine.boisvenue@nrcan-rncan.gc.ca}
 }
 
 Other contributors:
