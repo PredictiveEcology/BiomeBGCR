@@ -91,7 +91,7 @@ int bgc(bgcin_struct* bgcin, bgcout_struct* bgcout, int mode)
 	int dayout;
 
 	/* mode == MODE_MODEL only */
-	double daily_ndep, daily_nfix, ndep_scalar, ndep_diff, ndep;
+	double daily_ndep = 0.0, daily_nfix = 0.0, ndep_scalar, ndep_diff, ndep;
 	int ind_simyr;
 	
 	/* variables used for monthly average output */
