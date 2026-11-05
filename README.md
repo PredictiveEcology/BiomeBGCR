@@ -1,6 +1,6 @@
 # BiomeBGCR
 
-Package for running Biome-BGC models in R
+Run Biome-BGC ecophysiological models from R.
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -27,6 +27,11 @@ library("devtools")
 install_github("PredictiveEcology/BiomeBGCR@development")
 ```
 
+## License
+
+BiomeBGCR includes the Biome-BGC 4.2 source code (`src/Biome-BGC`), copyright the Numerical Terradynamics Simulation Group (NTSG), University of Montana.
+The package uses Biome-BGC's license; see [`LICENSE`](LICENSE).
+
 ## Contributions
 
 Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for information on how to contribute to this project.
@@ -35,14 +40,14 @@ Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for information on how to contri
 
 #### Windows & Linux
 
-1. (Windows Only) Install RTools 4.0 from url
+1. (Windows only) Install [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
 2. Open the BiomeBGCR package project file (`BiomeBGCR.Rproj`)
 3. Install Rcpp package in R using command `install.packages("Rcpp")`
 4. Build package
 
 #### Linux
 
-Debugging the C++ code using Visual Studio Code can only be achieved under linux because of a limitation with gdb and Mingw64
+Debugging the C++ code using Visual Studio Code can only be achieved under Linux because of a limitation with gdb and Mingw64
 (see <https://stackoverflow.com/questions/64723109/gdb-cant-debug-running-process-using-vs-code-but-can-through-command-line>).
 
 ##### Debugging setup for Visual Studio Code
@@ -71,8 +76,8 @@ Debugging the C++ code using Visual Studio Code can only be achieved under linux
     }
     ```
 
-3. Set the breakpoints in Visual Studio Code
+4. Set the breakpoints in Visual Studio Code
 
-4. Launch and attach the debugger to the `rsession` process after making sure the `BiomeBGCR` package is loaded
+5. Launch and attach the debugger to the `rsession` process after making sure the `BiomeBGCR` package is loaded
 
-5. Execute the R code calling the `BiomeBGCR` package
+6. Execute the R code calling the `BiomeBGCR` package

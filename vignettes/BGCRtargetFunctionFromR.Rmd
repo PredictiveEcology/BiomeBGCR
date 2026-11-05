@@ -1,10 +1,10 @@
 ---
-title: "R-based Biome-BGC functionallity"
+title: "R-based Biome-BGC functionality"
 author: "CBoisvenue"
 date: "13/10/2021"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{R-based Biome-BGC functionallity}
+  %\VignetteIndexEntry{R-based Biome-BGC functionality}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -30,7 +30,7 @@ Each section below looks at the individual files and suggests an avenue for cont
 
 This file will be referred to as the `.ini` file.
 Page 4 of the `bgc_users_guide.pdf` describes in detail the `.ini` file structure and requirements.
-All the sections and parameters defined in this file have to be modifiable either via a global script in SpaDES (example below) or by have some of the parameters in an R-object (in the `sim$`) that can be modified.
+All the sections and parameters defined in this file have to be modifiable either via a global script in SpaDES (example below) or by having some of the parameters in an R-object (in the `sim$`) that can be modified.
 An example of a global script and of the section that would be used in a module to build an object (`sim$bgc.ini`) are given below (2 separate code blocks).
 Note that each R-object in the lists match the blocks in the `.ini` file example provided in the `bgc_users_guide.pdf`.
 Some of these objects, the ones that are much less likely to change are in the module script and the ones with user-control are in the global script.
@@ -88,7 +88,7 @@ Ideally, the read-in data would be transformed via an R function to match the re
 Note that the example runs for one point, but that the `.mtc43` files will have to be modified so that the scripts will be able to handle multiple points (points representing pixels or `pixelGroups`).
 We could test multiple sites using the data from Boisvenue and Running (2010) which is easily available.
 
-# Ecophysioligical constants
+# Ecophysiological constants
 
 This file will be referred to as the `.epc` file.
 Similarly to the `.ini` file, all parameters need to be accessible in the R/SpaDES environment.
@@ -96,7 +96,7 @@ Similarly to the `.ini` file, all parameters need to be accessible in the R/SpaD
 # Other considerations
 
 Restart files are the result of running Biome-BGC in a spinup mode. 
-In the R/SpaDES environment, we would like to be able to start simulations from another source than a restart (something based on actual data), or a least be able to adjust the restart file to match data.
+In the R/SpaDES environment, we would like to be able to start simulations from another source than a restart (something based on actual data), or at least be able to adjust the restart file to match data.
 
 ## Potential source of Met data coming from MODIS
 
