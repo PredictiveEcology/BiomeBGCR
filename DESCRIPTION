@@ -1,8 +1,8 @@
 Package: BiomeBGCR
 Type: Package
 Title: Run Biome-BGC models from R
-Version: 0.0.0.9002
-Date: 2024-07-10
+Version: 0.0.1
+Date: 2026-11-05
 Authors@R: c(
     person("Alex M", "Chubaty", email = "achubaty@for-cast.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7146-8135")),
