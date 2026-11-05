@@ -8,32 +8,44 @@ test_that("Boisvenue2010 example validation test using single step mode", {
   sampleInputFiles <- list.files(sampleInputsDir, recursive = TRUE)
 
   expect_true({
-    all(file.copy(file.path(sampleInputsDir, sampleInputFiles),
-                  file.path(tmpd, "inputs", sampleInputFiles)))
+    all(file.copy(
+      file.path(sampleInputsDir, sampleInputFiles),
+      file.path(tmpd, "inputs", sampleInputFiles)
+    ))
   })
 
-  spinupFileNames <- file.path(tmpd, "inputs", "ini", c(
-    "spinup_b.ini",
-    "spinup_bc.ini",
-    "spinup_g.ini",
-    "spinup_m.ini",
-    "spinup_pr.ini",
-    "spinup_y.ini"
-  ))
+  spinupFileNames <- file.path(
+    tmpd,
+    "inputs",
+    "ini",
+    c(
+      "spinup_b.ini",
+      "spinup_bc.ini",
+      "spinup_g.ini",
+      "spinup_m.ini",
+      "spinup_pr.ini",
+      "spinup_y.ini"
+    )
+  )
   expect_true(all(file.exists(spinupFileNames)))
 
   message("spinupFileNames:\n", paste(spinupFileNames, collapse = "\n"))
 
   res <- bgcExecuteSpinup(argv, spinupFileNames, tmpd)
 
-  goFileNames <- file.path(tmpd, "inputs", "ini", c(
-    "cccmat63_b.ini",
-    "cccmat63_bc.ini",
-    "cccmat63_g.ini",
-    "cccmat63_m.ini",
-    "cccmat63_pr.ini",
-    "cccmat63_y.ini"
-  ))
+  goFileNames <- file.path(
+    tmpd,
+    "inputs",
+    "ini",
+    c(
+      "cccmat63_b.ini",
+      "cccmat63_bc.ini",
+      "cccmat63_g.ini",
+      "cccmat63_m.ini",
+      "cccmat63_pr.ini",
+      "cccmat63_y.ini"
+    )
+  )
   expect_true(all(file.exists(goFileNames)))
 
   iterations <- 1

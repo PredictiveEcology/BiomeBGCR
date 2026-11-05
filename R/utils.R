@@ -71,9 +71,13 @@ createIOdirs <- function(path) {
   sampleInputsDir <- system.file("inputs", package = "BiomeBGCR")
   sampleInputFiles <- list.files(sampleInputsDir, recursive = TRUE)
 
-  vapply(unique(dirname(sampleInputFiles)), function(d) {
-    dir.create(file.path(path, "inputs", d), recursive = TRUE, showWarnings = FALSE)
-  }, logical(1))
+  vapply(
+    unique(dirname(sampleInputFiles)),
+    function(d) {
+      dir.create(file.path(path, "inputs", d), recursive = TRUE, showWarnings = FALSE)
+    },
+    logical(1)
+  )
   dir.create(file.path(path, "outputs"), recursive = TRUE, showWarnings = FALSE)
 }
 

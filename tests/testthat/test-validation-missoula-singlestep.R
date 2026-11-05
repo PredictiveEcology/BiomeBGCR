@@ -8,8 +8,10 @@ test_that("Missoula example validation test using single step mode", {
   sampleInputFiles <- list.files(sampleInputsDir, recursive = TRUE)
 
   expect_true({
-    all(file.copy(file.path(sampleInputsDir, sampleInputFiles),
-                  file.path(tmpd, "inputs", sampleInputFiles)))
+    all(file.copy(
+      file.path(sampleInputsDir, sampleInputFiles),
+      file.path(tmpd, "inputs", sampleInputFiles)
+    ))
   })
 
   iniFileName <- file.path(tmpd, "inputs", "ini", "enf_test1.ini")

@@ -11,8 +11,21 @@ iniRead <- function(fileName) {
 
   sections <- vector(mode = "list", length = 15)
   names(sections) <- c(
-    "MET_INPUT", "RESTART", "TIME_DEFINE", "CLIM_CHANGE", "CO2_CONTROL", "SITE", "RAMP_NDEP", "EPC_FILE", "W_STATE",
-    "C_STATE", "N_STATE", "OUTPUT_CONTROL", "DAILY_OUTPUT", "ANNUAL_OUTPUT", "END_INIT"
+    "MET_INPUT",
+    "RESTART",
+    "TIME_DEFINE",
+    "CLIM_CHANGE",
+    "CO2_CONTROL",
+    "SITE",
+    "RAMP_NDEP",
+    "EPC_FILE",
+    "W_STATE",
+    "C_STATE",
+    "N_STATE",
+    "OUTPUT_CONTROL",
+    "DAILY_OUTPUT",
+    "ANNUAL_OUTPUT",
+    "END_INIT"
   )
 
   ## read the title and description and set as attributes
@@ -97,7 +110,12 @@ iniWrite <- function(ini, fileName, title = "", description = "") {
   for (section in ini) {
     writeLines("", con)
     for (i in 1:nrow(section)) {
-      str <- sprintf("%-15s %-10s %s", section[i, "value"], section[i, "unit"], section[i, "comment"])
+      str <- sprintf(
+        "%-15s %-10s %s",
+        section[i, "value"],
+        section[i, "unit"],
+        section[i, "comment"]
+      )
       writeLines(str, con)
     }
   }
@@ -138,7 +156,8 @@ iniFixPaths <- function(path, ini) {
   ## annual variable CO2 filename
   section <- "CO2_CONTROL"
   index <- 3
-  if (iniGet(ini, section, 1) == "1") { # filename must be corrected only if in file variation mode
+  if (iniGet(ini, section, 1) == "1") {
+    # filename must be corrected only if in file variation mode
     filename <- iniGet(ini, section, index)
     newFilename <- file.path(path, filename)
     ini <- iniSet(ini, section, index, newFilename)
