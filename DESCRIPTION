@@ -4,10 +4,10 @@ Title: Run Biome-BGC models from R
 Version: 0.0.1.9000
 Date: 2026-11-05
 Authors@R: c(
-    person("Alex M", "Chubaty", email = "achubaty@for-cast.ca", role = c("aut", "cre"),
+    person("Céline", "Boisvenue", email = "celine.boisvenue@nrcan-rncan.gc.ca", role = c("aut", "cre")),
+    person("Alex M", "Chubaty", email = "achubaty@for-cast.ca", role = c("aut"),
            comment = c(ORCID = "0000-0001-7146-8135")),
     person("Jean-Francois", "Lavoie", email = "atmailjfl@gmail.com", role = c("aut")),
-    person("Céline", "Boisvenue", email = "celine.boisvenue@nrcan-rncan.gc.ca", role = c("aut")),
     person("Peter E.", "Thornton", role = c("aut"),
            comment = "Biome-BGC original development"),
     person("W. Matt", "Jolly", role = c("ctb"),
